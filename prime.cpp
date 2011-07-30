@@ -11,8 +11,8 @@ public:
 		_primeTable(new uint32_t[n/32+1]) {
 			std::cout << "table 0: " << _primeTable[0] << std::endl;
 			std::cout << "table 1: " << _primeTable[1] << std::endl;
-			//testStorage(1);
-			//testStorage(2);
+			testStorage(1);
+			testStorage(2);
 		}
 
 	// deconstructor, cleanup
@@ -24,9 +24,9 @@ public:
 
 	// methods
 	void setPrime(uint32_t i, bool isPrime) {
-		if (~isPrime) {
+		if (~isPrime) { // 0 is prime, so set to 1
 			_primeTable[i/_blockSize] |= 1 << ((i-1) % _blockSize);	
-		} else {
+		} else { // 0 is prime, set to 0
 			_primeTable[i/_blockSize] &= ~(1 << ((i-1) % _blockSize));
 		}
 	}
