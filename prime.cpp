@@ -1,6 +1,7 @@
 #include <inttypes.h>
 #include <cstdio>
 #include <iostream>
+#include <bitset>
 
 class PrimeFinder
 {
@@ -24,11 +25,13 @@ public:
 
 	// methods
 	void setPrime(uint32_t i, bool isPrime) {
+		std::cout << "block before: " << std::bitset<32>(_primeTable[i/_blockSize]) << std::endl;
 		if (~isPrime) { // 0 is prime, so set to 1
 			_primeTable[i/_blockSize] |= 1 << ((i-1) % _blockSize);	
 		} else { // 0 is prime, set to 0
 			_primeTable[i/_blockSize] &= ~(1 << ((i-1) % _blockSize));
 		}
+		std::cout << "block after: " << std::bitset<32>(_primeTable[i/_blockSize]) << std::endl;
 	}
 
 	bool getPrime(uint32_t i) {
