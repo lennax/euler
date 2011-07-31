@@ -10,8 +10,21 @@ public:
 	PrimeFinder(uint32_t n) : 
 		_n(n), 
 		_primeTable(new uint8_t[n/_blockSize+1]) {
-			testStorage(1);
-			testStorage(2);
+			setPrime(0,false);
+			setPrime(1,false);
+			setPrime(2,true);
+			for (int i = 2; i < n; i++) {
+				if (getPrime(i)) {
+					for (int j = i; j < n; j+=i) {
+						std::cout << "j: " << std::endl;
+						setPrime(j,false);
+					} 
+				}
+			}
+			std::cout << "finished loops" << std::endl;
+			std::cout << "block after: " << std::bitset<8>(_primeTable[0/_blockSize]) << std::endl;
+			//testStorage(1);
+			//testStorage(2);
 		}
 
 	// deconstructor, cleanup
@@ -22,13 +35,13 @@ public:
 
 	// methods
 	void setPrime(uint32_t i, bool isPrime) {
-		std::cout << "block before: " << std::bitset<8>(_primeTable[i/_blockSize]) << std::endl;
+		//std::cout << "block before: " << std::bitset<8>(_primeTable[i/_blockSize]) << std::endl;
 		if (isPrime) { 
 			_primeTable[i/_blockSize] &= ~(1 << (i % _blockSize));
 		} else { 
 			_primeTable[i/_blockSize] |= 1 << (i % _blockSize);	
 		}
-		std::cout << "block after: " << std::bitset<8>(_primeTable[i/_blockSize]) << std::endl;
+		//std::cout << "block after: " << std::bitset<8>(_primeTable[i/_blockSize]) << std::endl;
 	}
 
 	bool getPrime(uint32_t i) {
@@ -56,6 +69,6 @@ const uint16_t PrimeFinder::_blockSize = 8*sizeof(*_primeTable); // must match _
 
 int main (int argc, char const* argv[])
 {
-	PrimeFinder primeFinderInstance(1000000);
+	PrimeFinder primeFinderInstance(20);
 	return 0;
 }
