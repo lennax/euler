@@ -51,8 +51,7 @@ public:
 	bool getPrime(uint32_t i) {
 		// if test for bit is true, a non-zero power of 2 
 		// will be returned which will be cast to true
-		// FIXME: right half probably wrong
-		return ~bool(_primeTable[i/_blockSize] & (1 << (i % _blockSize)));	
+		return !bool(_primeTable[i/_blockSize] & (1 << (i % _blockSize)));	
 	}
 
 	void testStorage(uint32_t i) {
