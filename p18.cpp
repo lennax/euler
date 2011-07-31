@@ -2,34 +2,71 @@
 #include <fstream>
 #include <cstdio>
 #include <string>
+#include <inttypes.h>
+#include <vector>
+#include <sstream>
 
 class PathFinder 
 {
 public:
 	PathFinder () {
-		readFile();
+		using namespace std;
+		readFile2();
+		cout << "triangle: " << endl;
+		for (int i=0;i<_triangle.size(); i++) {
+			for (int j=0;j<i+1;j++) cout << _triangle[i][j] << "\t";
+			cout << endl;
+		}
 	}
 private:
+	std::vector< std::vector<uint32_t> > _triangle;
 	void readFile() {
 		// import triangle and convert to 2D array
 		std::string line;
-		std::ifstream triangle; 
-		triangle.open ("triangle4.txt");
-		if (triangle.is_open()) {
+		std::ifstream file; 
+		file.open ("triangle4.txt");
+		if (file.is_open()) {
 			std::cout << "File opened" << std::endl;
-			while (triangle.good()) {
+			while (file.good()) {
 				std::cout << "Line good" << std::endl;
-				getline(triangle,line);
+				getline(file,line);
 				std::cout << line << std::endl;
 			}
-			triangle.close();
+			file.close();
 		}
 		else std::cout << "Unable to open file" << std::endl;
 	}
 
 	void readFile2() {
-		std::vector< std::vector< uint32_t > > triangle;
-		
+		using namespace std;
+		ifstream file;
+		file.open("triangle4.txt");
+
+		if(!file.is_open()) {
+			cout << "File not open" << endl;
+		}
+		string line;
+
+		while (!getline(file,line,'\n').eof()) {
+			istringstream reader(line);
+
+			vector< uint32_t > lineData;
+
+			string::const_iterator i = line.begin();
+
+			while (!reader.eof()) {
+				uint32_t val;
+				reader >> val;
+
+				if(reader.fail())
+					break;
+
+				lineData.push_back(val);
+			}
+
+			_triangle.push_back(lineData);
+		}
+		file.close();
 	}
 
 	// triangle addition logic
