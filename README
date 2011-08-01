@@ -1,0 +1,58 @@
+Copyright 2011 James Goppert
+Released under GPL v3 License
+
+For detailed information see the wiki: https://github.com/openmav/mavsim/wiki
+
+Using Scicoslab Toolbox:
+
+	For running in source directory, launch scicoslab from the mavsim directory:
+	1a. launch a terminal in mavsim root directory where this README is located.
+		Then type scicoslab.
+
+	If mavsim toolbox is installed in the 
+	system path (i.e. /usr/lib/scicos../contrib)
+	1b. launch scicoslab
+
+	Opening the toolbox
+	2. select menu toolboxes->mavsim-toolbox
+	3. select menu Demos->"mavsim block demos"
+
+Using Trim Application: 
+
+	If the mavsim is installed.
+	1a. launch the application: ./build/bin/mavsimTrim
+
+	If you are building from source.
+	1b. launch the application: mavsimTrim
+
+Building from Source:
+
+	Notes:
+		
+		The code only works for debian sid/squeeze and ubuntu maverick currently due to an
+		issue with osgstateset with osg  version < 2.8.3
+
+	Get the dependencies:
+
+		For debian sid/squeeze and ubuntu maverick:
+		sudo apt-get install cmake libqt4-dev simgear-dev liblapack-dev libboost-all-dev libopenscenegraph-dev gfortran
+		
+		If you need to build jsbsim from source (most likely since you need jsbsim-advtrim branch from mavsim)
+		sudo apt-get install libtool automake
+
+		Install scicoslab 4.4:
+		Download from www.scicoslab.org 
+		Or if you are using debian and you have hsl.dynalias.com on your package list: sudo apt-get install scicoslab-gtk	
+
+	Build the code:
+	
+		./autobuild.sh
+
+Packaging:
+
+	CPack may by used for packaging.
+	
+	For example:
+	cd build; cpack -g TGZ, will generate a tarball of the source.
+	cd build; cpack -g DEB, will generate a debian package.
+	cd build; cpack -g ZIP, will generate a zip of the source.
