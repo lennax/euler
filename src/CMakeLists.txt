@@ -10,6 +10,8 @@ add_library(eulerCommon SHARED ${eulerCommonSource})
 # problems
 add_executable(p18 p18.cpp)
 
+add_executable(p19 p19.cpp)
+
 add_executable(p27 p27.cpp)
 target_link_libraries(p27 eulerCommon)
 
