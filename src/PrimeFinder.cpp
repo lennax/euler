@@ -43,8 +43,12 @@ void PrimeFinder::setPrime(uint32_t i, bool isPrime) {
 }
 
 bool PrimeFinder::getPrime(uint32_t i) {
-	// if test for bit is true, a non-zero power of 2 
-	// will be returned which will be cast to true
+	if (i > _n) {
+		std::cerr << "You went off the end of the prime table; primality unknown." << std::endl;
+		return false; 
+	}
+	// if test for bit is true, & will produce a non-zero power of 2 
+	// which will be cast to true
 	return !bool(_primeTable[i/_blockSize] & (1 << (i % _blockSize)));	
 }
 

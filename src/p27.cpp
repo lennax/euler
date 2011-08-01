@@ -7,7 +7,7 @@ class PrimeQuadratic
 public:
 	PrimeQuadratic() {
 
-		PrimeFinder primeList(40000);
+		PrimeFinder primeList(20000);
 		uint32_t maxPrimes = 0;
 		int bestA = 0;
 		int bestB = 0;
@@ -15,7 +15,7 @@ public:
 		for (int a=-999;a<1000;a++) for (int b=-999;b<1000;b++) {
 		
 				uint32_t consecPrimes = 0;
-			for (int n=0;n<1555550;n++) {
+			for (int n=0;n<1000;n++) {
 				int current = n*n+a*n+b;
 				if (current < 0) 
 					break;
