@@ -10,12 +10,12 @@
 class PathFinder 
 {
 public:
-	PathFinder () {
+	PathFinder (const char * fileName) {
 		using namespace std;
-		cout << "filename: " << endl;
-		std::string fileName;
-		cin >> fileName;
-		readFile(fileName);
+		//cout << "filename: " << endl;
+		//std::string fileName;
+		//cin >> fileName;
+		readFile(string(fileName));
 		cout << "Original triangle:" << endl;
 		printTriangle();	
 		uint32_t sum = getSum();
@@ -97,8 +97,12 @@ private:
 
 int main (int argc, char const* argv[])
 {
-	PathFinder test;
-
+	using namespace std;
+	if (argc!=2) {
+		cerr << "usage: " << argv[0] << " filename" << endl;
+		return 1;
+	}
+	PathFinder test(argv[1]);
 	return 0;
 }
 
