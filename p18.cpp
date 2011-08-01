@@ -5,6 +5,7 @@
 #include <inttypes.h>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 class PathFinder 
 {
@@ -12,14 +13,22 @@ public:
 	PathFinder () {
 		using namespace std;
 		readFile();
-		cout << "triangle: " << endl;
+		cout << "Original triangle:" << endl;
+		printTriangle();	
+		getSum();
+		cout << "L triangle:" << endl;
+		printTriangle();
+	}
+private:
+	std::vector< std::vector<uint32_t> > _triangle;
+
+	void printTriangle() {
+		using namespace std;
 		for (int i=0;i<_triangle.size(); i++) {
 			for (int j=0;j<i+1;j++) cout << _triangle[i][j] << "\t";
 			cout << endl;
 		}
 	}
-private:
-	std::vector< std::vector<uint32_t> > _triangle;
 
 	// read file and convert to vector of vectors (2D array)
 	void readFile() {
@@ -67,7 +76,8 @@ private:
 				// add x,y to x-1,y-1
 			}
 			else {
-				_triangle[y][x] += _triangle
+				_triangle[y][x] += 
+					std::max(_triangle[y-1][x], _triangle[y-1][x-1]);
 				// add x,y to max((x,y-1), (x-1,y-1))
 			}
 		}
