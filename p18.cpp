@@ -41,7 +41,8 @@ private:
 		file.open(fileName.c_str());
 
 		if(!file.is_open()) {
-			cout << "File not open" << endl;
+			cout << "could not open file: " << fileName << endl;
+			exit(1);
 		}
 		string line;
 
