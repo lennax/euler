@@ -12,12 +12,16 @@ class PathFinder
 public:
 	PathFinder () {
 		using namespace std;
-		readFile();
+		cout << "filename: " << endl;
+		std::string fileName;
+		cin >> fileName;
+		readFile(fileName);
 		cout << "Original triangle:" << endl;
 		printTriangle();	
-		getSum();
+		uint32_t sum = getSum();
 		cout << "L triangle:" << endl;
 		printTriangle();
+		cout << "sum: " << sum << endl;
 	}
 private:
 	std::vector< std::vector<uint32_t> > _triangle;
@@ -31,10 +35,10 @@ private:
 	}
 
 	// read file and convert to vector of vectors (2D array)
-	void readFile() {
+	void readFile(std::string fileName) {
 		using namespace std;
 		ifstream file;
-		file.open("triangle4.txt");
+		file.open(fileName.c_str());
 
 		if(!file.is_open()) {
 			cout << "File not open" << endl;
@@ -64,7 +68,7 @@ private:
 	}
 
 	// triangle addition logic
-	void getSum() {
+	uint32_t getSum() {
 		for (int y=1;y<_triangle.size(); y++) for (int x=0;x<y+1;x++) 
 		{
 			if (x==0) {
@@ -81,7 +85,14 @@ private:
 				// add x,y to max((x,y-1), (x-1,y-1))
 			}
 		}
+		uint32_t sum = 0;
+		for (int i = 0; i < _triangle.size(); i++) {
+			uint32_t current = _triangle[_triangle.size()-1][i];
+			if (current > sum) sum = current;
+		}
+		return sum;
 	}
+
 };
 
 int main (int argc, char const* argv[])
