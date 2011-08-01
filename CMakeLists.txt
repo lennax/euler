@@ -85,11 +85,4 @@ endif(Fortran_langurage_works)
 # add make dist target
 add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
-# problems
-add_executable(p18 src/p18.cpp)
-add_executable(p27 src/p27.cpp)
-add_executable(prime src/prime.cpp)
-
-# installed programs
-install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-install(TARGETS prime DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+add_subdirectory(src)
