@@ -13,6 +13,8 @@ add_executable(p18 p18.cpp)
 add_executable(p27 p27.cpp)
 target_link_libraries(p27 eulerCommon)
 
+add_executable(p29 p29.cpp)
+
 add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
 
