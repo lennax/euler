@@ -1,6 +1,9 @@
 #!/usr/bin/env perl -w
 # answer given: 173
 # answer is rejected
+# 1 aug 2011: answer 171
+# 1 Jan 1900 was a Monday
+# but 20th century started the year after
 
 use strict;
 
@@ -35,7 +38,9 @@ for my $year (1900 .. 2000) {
 #		print "offset: $offset \n";
 #		print "mod: ", $offset%7, "\n";
 		my $weekday = $offset%7; 
-		$sunday_count++ if $weekday == 6;
+		if ($year > 1900 && $weekday == 6) {
+			$sunday_count++;
+		}
 	}
 }
 print "Sundays on the first of the month: $sunday_count\n";

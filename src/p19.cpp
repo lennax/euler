@@ -3,42 +3,37 @@
 #include <inttypes.h>
 
 bool isLeap (uint32_t year) {
-	//if (year%4 == 0) {
-		//if (year%100 > 0) {
-			//if (year%400 > 0) {
-			//}
-		//}
-	//}
-		   
+	// Multiples of 4 are generally leap years
+	// Multiples of 100 are generally not leap years
+	// Multiples of 400 are always leap years
 	if (year%4 == 0 && (year%100 > 0 || year%400 == 0)) return 1;
 	return 0;
 }
 
-
-
-
 int main (int argc, char const* argv[])
 {
+	// create array of days of months, make vector
 	uint32_t array[] = {31,28,31,30,31,30,31,31,30,31,30,31};
-	std::vector<uint32_t> months(&array[0], &array[11]);
+	std::vector<uint32_t> months(&array[0], &array[12]);
 
-	//std::cout << months[1] << std::endl;
+	for (uint32_t i=0; i<months.size(); i++) {
+		std::cout << months[i] << std::endl;
+	}
 	
 	uint32_t offset = 0;
 	uint32_t sundays = 0;
 
-	for (uint32_t year=1900; year<2001; year++) {
+	for (uint32_t year=1900; year<2001; year++) 
 		for (uint32_t month=0; month<12; month++) {
-			//need to implement isLeap()
-			if(month == 1 && isLeap(year)) {
+			if(month == 1 && isLeap(year)) 
 				offset += 29;
-			} else {
+			else
 				offset += months[month];
-			}
-			if (offset%7 == 6) {
+			
+			if (year > 1900 && offset%7 == 6) 
 			   	sundays++;
-			}
-		}
+			
+		
 	}
 	//std::cout << "1000: " << isLeap(1000) << std::endl;
 	//std::cout << "2000: " << isLeap(2000) << std::endl;
