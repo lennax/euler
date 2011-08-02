@@ -7,6 +7,14 @@ set(eulerCommonHeaders
 	)
 add_library(eulerCommon SHARED ${eulerCommonSource})
 
+set(itoaEulerSource
+	itoa.c
+	)
+set(itoaEulerHeaders
+	itoa.h
+	)
+add_library(itoaEuler SHARED ${itoaEulerSource})
+
 # problems
 add_executable(p18 p18.cpp)
 
@@ -21,6 +29,9 @@ add_executable(p36 p36.cpp)
 
 add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
+
+add_executable(itoa itoa.c)
+target_link_libraries(itoa itoaEuler)
 
 # installed programs
 install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

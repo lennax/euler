@@ -4,7 +4,7 @@ PS3='Please enter your choice: '
 LIST="in_source_build install_build grab_debian_dependencies package_source package remake clean END"
 MAKEARGS="-j8"
 echo 
-echo 1\)in_source_build: is used for development and you can start the scicoslab toolbox by typing scicoslab in the mavsim source directory
+echo 1\)in_source_build: is used for development.
 echo 2.\)install_build: is used for building before final installation to the system.
 echo 3.\)grab_debian_dependencies: installs all the required packages for debian based systems \(ubuntu maverick/ debian squeeze,lenny\)
 echo 4.\)package_source: creates a source package for distribution
