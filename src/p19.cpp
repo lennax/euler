@@ -35,7 +35,9 @@ int main (int argc, char const* argv[])
 			} else {
 				offset += months[month];
 			}
-			if (offset%7 == 6) sundays++;
+			if (offset%7 == 6) {
+			   	sundays++;
+			}
 		}
 	}
 	//std::cout << "1000: " << isLeap(1000) << std::endl;
