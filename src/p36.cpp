@@ -17,40 +17,39 @@ class PalindromeFinder
 {
 public:
 	//PalindromeFinder (const char * test) { // XXX for cmd line
-	PalindromeFinder () {
-
+	PalindromeFinder (const char * arg) {
 		using namespace std;
-		uint32_t total = 0;
-		for (uint32_t i=1; i<1000000; i++) {
-			if (i%10 > 0) {
-				// char test [33];
-				// sprintf (test, "%u", i);
-				char test[33];
-				itoa(i, test, 10);
-				if (isPalindrome(test) && isPalindrome((binStr(test)))) {
-					cout << test << "\t" << binStr(test) << endl;
-					total += i;
-				}
-				// cout << i << "\t" << isPalindrome(test) << endl;
-			}	
+
+		if (arg) {
+		// XXX test for command line interface XXX
+			cout << "base\tforward\treversed" << endl;
+			cout << "10\t" << arg << "\t" << strRev(arg) << endl;
+			cout << "\t";
+			if(isPalindrome(arg)) cout << "is ";
+			else cout << "is not ";
+			cout << "a palindrome." << endl;
+			string bin = binStr(arg);
+			cout << "2\t" << bin << "\t" << strRev(bin) << endl;
+			cout << "\t";
+			if(isPalindrome(bin)) cout << "is ";
+			else cout << "is not ";
+			cout << "a palindrome." << endl;	
 		}
-		cout << "Total: " << total << endl;
-
-		// int num = 123;
-		// char buf[5];
-		// itoa(num, buf, 10);
-		// printf("%s\n", buf);
-
-		//// XXX test for command line interface XXX
-		//cout << test << " reversed: " << strRev(test) << endl;
-		//if(isPalindrome(test)) cout << "is ";
-		//else cout << "is not ";
-		//cout << "a palindrome." << endl;
-		//cout <<  binStr(test) << " bin; rev: " 
-			//<<  strRev(binStr(test)) << endl;
-		//if(isPalindrome(binStr(test))) cout << "is ";
-		//else cout << "is not ";
-		//cout << "a palindrome." << endl;
+		else {
+			uint32_t total = 0;
+			for (uint32_t i=1; i<1000000; i++) {
+				if (i%10 > 0) {
+					// XXX itoa is nonstandard 
+					char test[33];
+					itoa(i, test, 10);
+					if (isPalindrome(test) && isPalindrome((binStr(test)))) {
+						cout << test << "\t" << binStr(test) << endl;
+						total += i;
+					}
+				}	
+			}
+			cout << "Total: " << total << endl;
+		}
 		
 	}
 private:
@@ -134,6 +133,7 @@ private:
 	std::string binStr(std::string test) {
 		using namespace std;
 		string binStr = bitset<32>(strToInt(test)).to_string();
+		// stop must be set because binStr.size() is changed in loop
 		uint32_t stop = binStr.size();
 		for (uint32_t i=0; i<stop; i++) {
 			if ((binStr.substr(0,1)).compare("0") == 0) {
@@ -146,16 +146,24 @@ private:
 
 int main (int argc, char const* argv[])
 {	
-	//// XXX Command line interface XXX
-	//using namespace std;
-	//if (argc!=2) {
-		//cerr << "usage: " << argv[0] << " number" << endl;
-		//return 1;
-	//}
-	//// FIXME validate argv[1] to be integer
-	//PalindromeFinder testInstance(argv[1]);
+	// XXX Command line interface XXX
+	using namespace std;
+	if (argc==1) {
+		argv[1] = 0;
+		cerr << "For single number, usage: " 
+			<< argv[0] << " number" << endl;
+	}
+	else if (argc==2)
+		cerr << "To find all dual palindromes under 1M, omit argument." 
+			<< endl;
+	else if (argc!=2) {
+		cerr << "usage: " << argv[0] << " number" << endl;
+		return 1;
+	}
+	// FIXME validate argv[1] to be integer
+	PalindromeFinder testInstance(argv[1]);
 
-	PalindromeFinder palindromeInstance;
+	// PalindromeFinder palindromeInstance(0);
 
 	return 0;
 }
