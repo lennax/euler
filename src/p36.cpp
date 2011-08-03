@@ -5,7 +5,7 @@
 #include <inttypes.h>
 #include <stdlib.h>
 
-//#include "itoa.h"
+#include "itoa.h"
 
 //585 is 1001001001 in binary - palindrome in both
 //find all numbers less than 1M palindromic in both

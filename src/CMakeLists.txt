@@ -1,19 +1,13 @@
 # library
 set(eulerCommonSource
 	PrimeFinder.cpp
+	itoa.c
 	)
 set(eulerCommonHeaders
 	PrimeFinder.hpp
-	)
-add_library(eulerCommon SHARED ${eulerCommonSource})
-
-set(itoaEulerSource
-	itoa.c
-	)
-set(itoaEulerHeaders
 	itoa.h
 	)
-add_library(itoaEuler SHARED ${itoaEulerSource})
+add_library(eulerCommon SHARED ${eulerCommonSource})
 
 # problems
 add_executable(p18 p18.cpp)
@@ -25,13 +19,12 @@ target_link_libraries(p27 eulerCommon)
 
 add_executable(p29 p29.cpp)
 
+# bad monkey, you no good copy!
 add_executable(p36 p36.cpp)
+target_link_libraries(p36 eulerCommon)
 
 add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
-
-add_executable(itoa itoa.c)
-target_link_libraries(itoa itoaEuler)
 
 # installed programs
 install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

@@ -59,4 +59,4 @@ void PrimeFinder::testStorage(uint32_t i) {
 	std::cout << "set " << i << " to composite, new value: " << 
 		getPrime(i) << std::endl;
 }
-const uint16_t PrimeFinder::_blockSize = 8*sizeof(*_primeTable); // must match _primeTable type
+const uint16_t PrimeFinder::_blockSize = 8*sizeof(uint32_t); // must match _primeTable type
