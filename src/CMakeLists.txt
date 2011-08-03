@@ -19,7 +19,6 @@ target_link_libraries(p27 eulerCommon)
 
 add_executable(p29 p29.cpp)
 
-# bad monkey, you no good copy!
 add_executable(p36 p36.cpp)
 target_link_libraries(p36 eulerCommon)
 
