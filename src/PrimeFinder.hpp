@@ -1,3 +1,6 @@
+#ifndef _PRIMEFINDER_HPP
+#define _PRIMEFINDER_HPP
+
 #include <inttypes.h>
 #include <cstdio>
 #include <iostream>
@@ -23,3 +26,5 @@ private:
 	uint8_t * _primeTable; // the smaller the window the better
 	static const uint16_t _blockSize;
 };
+
+#endif // _PRIMEFINDER_HPP
