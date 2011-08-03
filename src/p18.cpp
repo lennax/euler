@@ -17,19 +17,19 @@ public:
 		//cin >> fileName;
 		readFile(string(fileName));
 		cout << "Original triangle:" << endl;
-		printTriangle();	
+		printMatrix();	
 		uint32_t sum = getSum();
 		cout << "L triangle:" << endl;
-		printTriangle();
+		printMatrix();
 		cout << "sum: " << sum << endl;
 	}
 private:
-	std::vector< std::vector<uint32_t> > _triangle;
+	std::vector< std::vector<uint32_t> > _matrix;
 
-	void printTriangle() {
+	void printMatrix() {
 		using namespace std;
-		for (int i=0;i<_triangle.size(); i++) {
-			for (int j=0;j<i+1;j++) cout << _triangle[i][j] << "\t";
+		for (int i=0;i<_matrix.size(); i++) {
+			for (int j=0;j<i+1;j++) cout << _matrix[i][j] << "\t";
 			cout << endl;
 		}
 	}
@@ -63,32 +63,32 @@ private:
 				lineData.push_back(val);
 			}
 
-			_triangle.push_back(lineData);
+			_matrix.push_back(lineData);
 		}
 		file.close();
 	}
 
 	// triangle addition logic
 	uint32_t getSum() {
-		for (int y=1;y<_triangle.size(); y++) for (int x=0;x<y+1;x++) 
+		for (int y=1;y<_matrix.size(); y++) for (int x=0;x<y+1;x++) 
 		{
 			if (x==0) {
-				_triangle[y][x] += _triangle[y-1][x];
+				_matrix[y][x] += _matrix[y-1][x];
 				// add x,y to x,y-1
 			}	
 			else if (x==y) {
-				_triangle[y][x] += _triangle[y-1][x-1];
+				_matrix[y][x] += _matrix[y-1][x-1];
 				// add x,y to x-1,y-1
 			}
 			else {
-				_triangle[y][x] += 
-					std::max(_triangle[y-1][x], _triangle[y-1][x-1]);
+				_matrix[y][x] += 
+					std::max(_matrix[y-1][x], _matrix[y-1][x-1]);
 				// add x,y to max((x,y-1), (x-1,y-1))
 			}
 		}
 		uint32_t sum = 0;
-		for (int i = 0; i < _triangle.size(); i++) {
-			uint32_t current = _triangle[_triangle.size()-1][i];
+		for (int i = 0; i < _matrix.size(); i++) {
+			uint32_t current = _matrix[_matrix.size()-1][i];
 			if (current > sum) sum = current;
 		}
 		return sum;
