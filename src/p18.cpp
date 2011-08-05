@@ -39,25 +39,49 @@ private:
 			cout << "could not open file: " << fileName << endl;
 			exit(1);
 		}
-		string line;
 
+		string delimTest;
+		getline(file,delimTest,'\n'); 
+		//cout << delimTest << endl;
+		if (delimTest.find(" ") != string::npos) {
+			cout << "delim is space" << endl;
+		} else if (delimTest.find(",") != string::npos) {
+			cout << "delim is comma" << endl;
+		} else { 
+			cout << "if triangle, is space" << endl;
+		}
+
+		file.close();
+		file.open(fileName.c_str());
+
+		string line;
 		while (!getline(file,line,'\n').eof()) {
 			istringstream reader(line);
 
-			vector< uint32_t > lineData;
+			vector<uint32_t> lineData;
 
-			string::const_iterator i = line.begin();
+			//string::const_iterator i = line.begin();
 
-			while (!reader.eof()) {
-				uint32_t val;
-				reader >> val;
+			//while (!reader.eof()) {
+				//uint32_t val;
+				//reader >> val;
 
-				if(reader.fail())
-					break;
+				//if(reader.fail())
+					//break;
 
-				lineData.push_back(val);
+				//lineData.push_back(val);
+			//}
+
+			uint32_t number;
+			string number_str;
+			char delimiter = ' ';
+			while ( getline(reader, number_str, delimiter) 
+				  && istringstream( number_str ) >> number)
+			{
+				lineData.push_back (number);	
 			}
 
+			// push vector lineData into vector vector _matrix
 			_matrix.push_back(lineData);
 		}
 		file.close();
