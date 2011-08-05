@@ -1,11 +1,11 @@
 # library
 set(eulerCommonSource
 	PrimeFinder.cpp
-	itoa.c
+	utilities.cpp
 	)
 set(eulerCommonHeaders
 	PrimeFinder.hpp
-	itoa.h
+	utilities.hpp
 	)
 add_library(eulerCommon SHARED ${eulerCommonSource})
 
