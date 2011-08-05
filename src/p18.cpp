@@ -16,6 +16,7 @@ public:
 		//std::string fileName;
 		//cin >> fileName;
 		readFile(string(fileName));
+		cout << getShape() << endl;
 		cout << "Original triangle:" << endl;
 		printMatrix();	
 		uint32_t sum = getSum();
@@ -67,6 +68,26 @@ private:
 		}
 		file.close();
 	}
+
+	// determine whether matrix is triangle or square
+	std::string getShape()
+   	{
+		// XXX this works
+		//std::vector<uint32_t> lastRow = _matrix[_matrix.size()-1]; 
+		//int lastRowSize = lastRow.size();
+		//std::cout << lastRowSize << std::endl;
+
+		std::cout << "height: " << _matrix.size() << std::endl;
+
+		std::cout << "widths:" << std::endl;
+
+		std::cout << "0th: " << _matrix[0].size() << std::endl;
+
+		std::cout << "nth: " << _matrix[_matrix.size()-1].size() << std::endl;
+
+		return "fuck everything";
+	}
+
 
 	// triangle addition logic
 	uint32_t getSum() {
