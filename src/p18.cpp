@@ -17,24 +17,18 @@ public:
 		//cin >> fileName;
 		readFile(string(fileName));
 		cout << getShape() << endl;
-		cout << "Original triangle:" << endl;
-		printMatrix();	
-		uint32_t sum = getSum();
-		cout << "L triangle:" << endl;
-		printMatrix();
-		cout << "sum: " << sum << endl;
+
+		//cout << "Original triangle:" << endl;
+		//printMatrix();	
+		//uint32_t sum = getSum();
+		//cout << "L triangle:" << endl;
+		//printMatrix();
+		//cout << "sum: " << sum << endl;
+
 	}
 private:
 	std::vector< std::vector<uint32_t> > _matrix;
-
-	void printMatrix() {
-		using namespace std;
-		for (int i=0;i<_matrix.size(); i++) {
-			for (int j=0;j<i+1;j++) cout << _matrix[i][j] << "\t";
-			cout << endl;
-		}
-	}
-
+	
 	// read file and convert to vector of vectors (2D array)
 	void readFile(std::string fileName) {
 		using namespace std;
@@ -85,9 +79,16 @@ private:
 
 		std::cout << "nth: " << _matrix[_matrix.size()-1].size() << std::endl;
 
-		return "fuck everything";
+		return "end getShape";
 	}
 
+	void printMatrix() {
+		using namespace std;
+		for (int i=0;i<_matrix.size(); i++) {
+			for (int j=0;j<i+1;j++) cout << _matrix[i][j] << "\t";
+			cout << endl;
+		}
+	}
 
 	// triangle addition logic
 	uint32_t getSum() {
