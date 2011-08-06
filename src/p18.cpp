@@ -17,10 +17,10 @@ public:
 		//cin >> fileName;
 		readFile(string(fileName));
 
-		cout << "Original triangle:" << endl;
+		cout << "Original matrix:" << endl;
 		printMatrix();	
 		uint32_t sum = getSum();
-		cout << "L triangle:" << endl;
+		cout << "Computed matrix:" << endl;
 		printMatrix();
 		cout << "sum: " << sum << endl;
 
@@ -75,19 +75,15 @@ private:
 	// determine whether matrix is triangle or square
 	_shape_t getShape()
    	{
-		// XXX this works
-		//std::vector<uint32_t> lastRow = _matrix[_matrix.size()-1]; 
-		//int lastRowSize = lastRow.size();
-		//std::cout << lastRowSize << std::endl;
-
 		std::cout << "height: " << _matrix.size() << std::endl;
-		std::cout << "widths:" << std::endl;
-		std::cout << "0th: " << _matrix[0].size() << std::endl;
-		std::cout << "nth: " << _matrix[_matrix.size()-1].size() << std::endl;
-
+		std::cout << "0 width: " << _matrix[0].size() << std::endl;
+		std::cout << "n width: " << _matrix[_matrix.size()-1].size() << std::endl;
+		// check height is equal to last row width
 		if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
+			// square first row width is equal to last row width
 			if ( _matrix[_matrix.size()-1].size() == _matrix[0].size() ) {
 				return SHAPE_SQUARE;
+			// triangle first row width is 1
 			} else if ( _matrix[0].size() == 1 ) {
 				return SHAPE_TRIANGLE;
 			}
@@ -112,27 +108,34 @@ private:
 				{
 					if (x==0) {
 						_matrix[y][x] += _matrix[y-1][x];
-						// add x,y to x,y-1
-					}	
-					else if (x==y) {
+					} else if (x==y) {
 						_matrix[y][x] += _matrix[y-1][x-1];
-						// add x,y to x-1,y-1
-					}
-					else {
+					} else {
 						_matrix[y][x] += 
 							std::max(_matrix[y-1][x], _matrix[y-1][x-1]);
-						// add x,y to max((x,y-1), (x-1,y-1))
 					}
 				}
 				break;
 			case SHAPE_SQUARE:
+				for (int y=0; y<_matrix.size(); y++) for (int x=0; x<_matrix.size(); x++)
 				{
+					if (y == 0 && x == 0) {
+						continue;
+					}
+					else if (y == 0) {
+						_matrix[y][x] += _matrix[y][x-1];
+					} else if (x == 0) {
+						_matrix[y][x] += _matrix[y-1][x];
+					} else {
+						_matrix[y][x] += 
+							std::min(_matrix[y][x-1], _matrix[y-1][x]);
+					}
 				}
 				break;
 			default:
-				std::cerr << "YOU FOOL" << std::endl;
-				return -1;
-				break;
+				std::cerr << "The supplied matrix is not a recognized shape." 
+					<< std::endl;
+				exit(1); 
 		}
 
 		uint32_t sum = 0;
