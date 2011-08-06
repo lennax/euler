@@ -18,8 +18,8 @@ public:
 		readFile(string(fileName));
 		cout << getShape() << endl;
 
-		//cout << "Original triangle:" << endl;
-		//printMatrix();	
+		cout << "Original triangle:" << endl;
+		printMatrix();	
 		//uint32_t sum = getSum();
 		//cout << "L triangle:" << endl;
 		//printMatrix();
@@ -39,25 +39,32 @@ private:
 			cout << "could not open file: " << fileName << endl;
 			exit(1);
 		}
-		string line;
 
+		// Read a line and look for comma, else assume space
+		string delimTest;
+		char delimiter;
+		getline(file,delimTest,'\n'); 
+		if (delimTest.find(",") != string::npos) {
+			delimiter = ',';
+		} else { 
+			delimiter = ' '; 
+		}
+		// Close and reopen file
+		file.close();
+		file.open(fileName.c_str());
+		// Read lines into vector vector
+		string line;
 		while (!getline(file,line,'\n').eof()) {
 			istringstream reader(line);
-
-			vector< uint32_t > lineData;
-
-			string::const_iterator i = line.begin();
-
-			while (!reader.eof()) {
-				uint32_t val;
-				reader >> val;
-
-				if(reader.fail())
-					break;
-
-				lineData.push_back(val);
+			vector<uint32_t> lineData;
+			uint32_t number;
+			string number_str;
+			while ( getline(reader, number_str, delimiter) 
+				  && istringstream( number_str ) >> number)
+			{
+				lineData.push_back (number);	
 			}
-
+			// push vector lineData into vector vector _matrix
 			_matrix.push_back(lineData);
 		}
 		file.close();
@@ -79,13 +86,23 @@ private:
 
 		std::cout << "nth: " << _matrix[_matrix.size()-1].size() << std::endl;
 
-		return "end getShape";
+		std::string shape;
+		if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
+			if ( _matrix[_matrix.size()-1].size() == _matrix[0].size() ) {
+				shape = "square";
+			} else if ( _matrix[0].size() == 1 ) {
+				shape = "triangle";
+			}
+		}
+
+		return shape;
 	}
 
 	void printMatrix() {
 		using namespace std;
 		for (int i=0;i<_matrix.size(); i++) {
-			for (int j=0;j<i+1;j++) cout << _matrix[i][j] << "\t";
+			for (int j=0;j<_matrix[i].size();j++) 
+				cout << _matrix[i][j] << "\t";
 			cout << endl;
 		}
 	}
