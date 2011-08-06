@@ -16,18 +16,20 @@ public:
 		//std::string fileName;
 		//cin >> fileName;
 		readFile(string(fileName));
-		cout << getShape() << endl;
 
 		cout << "Original triangle:" << endl;
 		printMatrix();	
-		//uint32_t sum = getSum();
-		//cout << "L triangle:" << endl;
-		//printMatrix();
-		//cout << "sum: " << sum << endl;
+		uint32_t sum = getSum();
+		cout << "L triangle:" << endl;
+		printMatrix();
+		cout << "sum: " << sum << endl;
 
 	}
 private:
 	std::vector< std::vector<uint32_t> > _matrix;
+	enum _shape_t {
+		SHAPE_SQUARE, SHAPE_TRIANGLE, SHAPE_ERROR
+	};
 	
 	// read file and convert to vector of vectors (2D array)
 	void readFile(std::string fileName) {
@@ -71,7 +73,7 @@ private:
 	}
 
 	// determine whether matrix is triangle or square
-	std::string getShape()
+	_shape_t getShape()
    	{
 		// XXX this works
 		//std::vector<uint32_t> lastRow = _matrix[_matrix.size()-1]; 
@@ -79,23 +81,17 @@ private:
 		//std::cout << lastRowSize << std::endl;
 
 		std::cout << "height: " << _matrix.size() << std::endl;
-
 		std::cout << "widths:" << std::endl;
-
 		std::cout << "0th: " << _matrix[0].size() << std::endl;
-
 		std::cout << "nth: " << _matrix[_matrix.size()-1].size() << std::endl;
 
-		std::string shape;
 		if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
 			if ( _matrix[_matrix.size()-1].size() == _matrix[0].size() ) {
-				shape = "square";
+				return SHAPE_SQUARE;
 			} else if ( _matrix[0].size() == 1 ) {
-				shape = "triangle";
+				return SHAPE_TRIANGLE;
 			}
-		}
-
-		return shape;
+		} else return SHAPE_ERROR; 
 	}
 
 	void printMatrix() {
@@ -109,22 +105,36 @@ private:
 
 	// triangle addition logic
 	uint32_t getSum() {
-		for (int y=1;y<_matrix.size(); y++) for (int x=0;x<y+1;x++) 
-		{
-			if (x==0) {
-				_matrix[y][x] += _matrix[y-1][x];
-				// add x,y to x,y-1
-			}	
-			else if (x==y) {
-				_matrix[y][x] += _matrix[y-1][x-1];
-				// add x,y to x-1,y-1
-			}
-			else {
-				_matrix[y][x] += 
-					std::max(_matrix[y-1][x], _matrix[y-1][x-1]);
-				// add x,y to max((x,y-1), (x-1,y-1))
-			}
+		_shape_t shape = getShape();
+		switch (shape) {
+			case SHAPE_TRIANGLE: 
+				for (int y=1;y<_matrix.size(); y++) for (int x=0;x<y+1;x++) 
+				{
+					if (x==0) {
+						_matrix[y][x] += _matrix[y-1][x];
+						// add x,y to x,y-1
+					}	
+					else if (x==y) {
+						_matrix[y][x] += _matrix[y-1][x-1];
+						// add x,y to x-1,y-1
+					}
+					else {
+						_matrix[y][x] += 
+							std::max(_matrix[y-1][x], _matrix[y-1][x-1]);
+						// add x,y to max((x,y-1), (x-1,y-1))
+					}
+				}
+				break;
+			case SHAPE_SQUARE:
+				{
+				}
+				break;
+			default:
+				std::cerr << "YOU FOOL" << std::endl;
+				return -1;
+				break;
 		}
+
 		uint32_t sum = 0;
 		for (int i = 0; i < _matrix.size(); i++) {
 			uint32_t current = _matrix[_matrix.size()-1][i];
