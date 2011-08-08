@@ -1,79 +1,172 @@
-#include <iostream>
-#include <fstream>
-#include <cstdio>
-#include <string>
-#include <inttypes.h>
-#include <vector>
-#include <sstream>
-#include <algorithm>
+#include "matrix.hpp"
 
-class MatrixReader {
-	public: 
-		typedef std::vector< std::vector<uint32_t> > matrix_t; 	
-		enum shape_t {
-			SHAPE_SQUARE, SHAPE_TRIANGLE, SHAPE_ERROR
-		};		
-	private:
-		const char * _fileName; 
-		matrix_t _matrix;
-		
-	public:
-		// constructor
-		MatrixReader (const char * fileName) :
-			_fileName(fileName)
-		{			
-		}
 
-		matrix_t getMatrix() {
-			// get the file blah blah 
-		}
-		
-		shape_t getShape() {
-			// get the shape
-		}
-};
+// constructor
+MatrixReader::MatrixReader (std::string fileName) :
+	_fileName(fileName)
+{			
+	using namespace std;
+	ifstream file;
+	file.open(_fileName.c_str());
 
-// abstract class
-class PathFinder {
-	public: 
-		typedef std::vector< std::vector<uint32_t> > matrix_t; 
-		enum pathType_t {
-			PATHTYPE_MIN, PATHTYPE_MAX
-		};		
-		// constructor	
-		PathFinder (matrix_t matrix, pathType_t pathType) :
-			_matrix(matrix), _pathType(pathType)
+	if(!file.is_open()) {
+		cout << "could not open file: " << _fileName << endl;
+		exit(1);
+	}
+
+	// Read a line and look for comma, else assume space
+	string delimTest;
+	char delimiter;
+	getline(file,delimTest,'\n'); 
+	if (delimTest.find(",") != string::npos) {
+		delimiter = ',';
+	} else { 
+		delimiter = ' '; 
+	}
+	// Close and reopen file
+	file.close();
+	file.open(_fileName.c_str());
+	// Read lines into vector vector
+	string line;
+	while (!getline(file,line,'\n').eof()) {
+		istringstream reader(line);
+		vector<uint32_t> lineData;
+		uint32_t number;
+		string number_str;
+		while ( getline(reader, number_str, delimiter) 
+			  && istringstream( number_str ) >> number)
 		{
+			lineData.push_back (number);	
 		}
-	private: 
-		pathType_t _pathType;
-		matrix_t _matrix; 		
-};
+		// push vector lineData into vector vector _matrix
+		_matrix.push_back(lineData);
+	}
+	file.close();			
+}
 
-class PathFinderSquare1: public PathFinder {
-	public: 
-		//constructor
-		PathFinderSquare1 (matrix_t matrix, pathType_t pathType): 
-			PathFinder(matrix, pathType) 
-		{		
+MatrixReader::matrix_t MatrixReader::getMatrix() {
+	return _matrix;
+}
+
+// determine whether matrix is triangle or square
+MatrixReader::shape_t MatrixReader::getShape() {
+	// std::cout << "height: " << _matrix.size() << std::endl;
+	// std::cout << "0 width: " << _matrix[0].size() << std::endl;
+	// std::cout << "n width: " << _matrix[_matrix.size()-1].size() << std::endl;
+
+	// check height is equal to last row width
+	if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
+		// square first row width is equal to last row width
+		if ( _matrix[_matrix.size()-1].size() == _matrix[0].size() ) {
+			return SHAPE_SQUARE;
+		// triangle first row width is 1
+		} else if ( _matrix[0].size() == 1 ) {
+			return SHAPE_TRIANGLE;
 		}
-};
+	} else return SHAPE_ERROR;
+}
 
-class PathFinderTriangle1: public PathFinder {
-	public: 
-		//constructor 
-		PathFinderTriangle1 (matrix_t matrix, pathType_t pathType) :
-			PathFinder(matrix, pathType)
-		{
-		}	
-}; 
+void MatrixReader::printMatrix() {
+	using namespace std;
+	for (int i=0;i<_matrix.size(); i++) {
+		for (int j=0;j<_matrix[i].size();j++) 
+			cout << _matrix[i][j] << "\t";
+		cout << endl;
+	}
+}
+
+
+// constructor	
+PathFinder::PathFinder (matrix_t matrix, pathType_t pathType) : 
+	_matrix(matrix), _pathType(pathType)
+{
+}
+
+uint32_t PathFinder::compare(uint32_t a, uint32_t b) {
+	if (_pathType == PATHTYPE_MIN) {
+		return std::min(a,b);
+	}	
+	else if (_pathType == PATHTYPE_MAX) {
+		return std::max(a,b);
+	}
+}	
+
+
+
+//constructor
+PathFinderSquare1::PathFinderSquare1 (matrix_t matrix, pathType_t pathType) : 
+	PathFinder(matrix, pathType) 
+{
+	//std::cout << "Sum: " << getSum() << std::endl;
+}
+
+uint32_t PathFinderSquare1::getSum() {
+	uint32_t sum = 0; 
+
+	for (int y=0; y<_matrix.size(); y++) for (int x=0; x<_matrix.size(); x++)
+	{
+		uint32_t & cur = _matrix[y][x];
+		if (y == 0 && x == 0) {
+			continue;
+		}
+		else if (y == 0) {
+			cur += _matrix[y][x-1];
+		} else if (x == 0) {
+			cur += _matrix[y-1][x];
+		} else {
+			cur += compare(_matrix[y][x-1], _matrix[y-1][x]);
+		}
+	}
+
+	sum = _matrix[_matrix.size()-1][_matrix.size()-1];
+	return sum;
+}
+
+
+
+//constructor 
+PathFinderTriangle1::PathFinderTriangle1 (matrix_t matrix, pathType_t pathType) :
+	PathFinder(matrix, pathType)
+{
+	//std::cout << "Sum: " << getSum() << std::endl;
+}
+
+uint32_t PathFinderTriangle1::getSum() {
+	uint32_t sum = 0; 
+
+	for (int y=1;y<_matrix.size(); y++) for (int x=0;x<y+1;x++) 
+	{
+		uint32_t & cur = _matrix[y][x];
+		if (x==0) {
+			cur += _matrix[y-1][x];
+		} else if (x==y) {
+			cur += _matrix[y-1][x-1];
+		} else {
+			cur += compare(_matrix[y-1][x], _matrix[y-1][x-1]);
+		}
+	}
+
+	for (int i=0; i<_matrix.size(); i++) {
+		uint32_t current = _matrix[_matrix.size()-1][i];
+		if (i==0) sum = current;
+		else sum = compare(sum,current);
+	}
+
+	return sum;
+}	
+
 
 int main (int argc, char const* argv[])
 {
 	using namespace std;
-	const char * fileName = argv[1];
-	// char * compareType = argv[2];
-	MatrixReader mRInstance(fileName);
+	// const char * fileName = argv[1];
+	MatrixReader mRInstance(argv[1]);
+	
+	// FIXME need MANY MANY error checkings
+	// particularly # of argv
+	// and is file open
+	// and is the data perfectly formed
+	// and blah 
 	
 	PathFinder::pathType_t pathType; 
 	if (strcmp(argv[2], "min") == 0)
@@ -96,4 +189,10 @@ int main (int argc, char const* argv[])
 			p = new PathFinderTriangle1(mRInstance.getMatrix(), pathType);
 			break;
 	}
+	std::cout << "Sum: " << p->getSum() << std::endl;
+		
+
+	// cleanup 
+	delete p; 
+	p = NULL;
 }
