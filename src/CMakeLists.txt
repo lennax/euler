@@ -10,7 +10,9 @@ set(eulerCommonHeaders
 add_library(eulerCommon SHARED ${eulerCommonSource})
 
 # problems
-add_executable(p18 p18.cpp)
+#add_executable(p18 p18.cpp)
+
+add_executable(matrix matrix.cpp)
 
 add_executable(p19 p19.cpp)
 
@@ -26,5 +28,5 @@ add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
 
 # installed programs
-install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+#install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 install(TARGETS prime DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

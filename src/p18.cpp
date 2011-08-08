@@ -7,17 +7,30 @@
 #include <sstream>
 #include <algorithm>
 
+// prototype for int main {
+// 	char * fileName = argv[1];
+// 	char * compareType = argv[2];
+// 	matrixReader matrixReaderInstance(fileName);
+// 	if mR.isLoaded() // or try/catch (exceptions)
+// 	switch(mR.getShape()) {
+// 		case PF::SHAPE_SQUARE:
+// 			pathFinder = new PathFinderSquare1(mR.getMatrix(), compareType);
+// 		
+// 	}
+// }
+	
+
+
+
 class CostArray {
 	private: 
 		enum _shape_t {
 			SHAPE_SQUARE, SHAPE_TRIANGLE, SHAPE_ERROR
 		};
-				
 	public: 
 		enum pathType_t {
 			PATHTYPE_MIN, PATHTYPE_MAX
 		};	
-		
 		
 		CostArray (const char * fileName, pathType_t pathType) :
 			_pathType(pathType) 
@@ -185,6 +198,7 @@ int main (int argc, char const* argv[])
 		return 1;
 	}
 	CostArray::pathType_t pathType;
+	CostArray * costArray = NULL;
 	if (strcmp(argv[2], "min") == 0)
 			pathType = CostArray::PATHTYPE_MIN;
 	else if (strcmp(argv[2], "max") == 0)
@@ -194,6 +208,9 @@ int main (int argc, char const* argv[])
 			cerr << "Second argument must be 'min' or 'max'." << endl;
 			return 1;
 	}
+	
+	costArray = new CostArrayTriangle1;
+	costArray.getSum();
 
 	// FIXME dont know it's a square
 	CostArraySquare1 costArrayInstance(argv[1], pathType);
