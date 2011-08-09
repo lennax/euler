@@ -1,6 +1,5 @@
 #include "matrix.hpp"
 
-
 // constructor
 MatrixReader::MatrixReader (std::string fileName) :
 	_fileName(fileName)
@@ -10,7 +9,7 @@ MatrixReader::MatrixReader (std::string fileName) :
 	file.open(_fileName.c_str());
 
 	if(!file.is_open()) {
-		cout << "Could not open file: " << _fileName << endl;
+		cerr << "Could not open file: " << _fileName << endl;
 		exit(1);
 	}
 
@@ -100,7 +99,6 @@ uint32_t PathFinder::compare(uint32_t a, uint32_t b) {
 }	
 
 
-
 //constructor
 PathFinderSquare1::PathFinderSquare1 (matrix_t matrix, pathType_t pathType) : 
 	PathFinder(matrix, pathType) 
@@ -164,29 +162,58 @@ uint32_t PathFinderTriangle1::getSum() {
 }	
 
 
+void printUsage(char const* argv_0) {
+	std::cerr << "Usage: " << argv_0 << " filename (min|max)" << std::endl; 
+}
+
+
+
 int main (int argc, char const* argv[])
 {
 	using namespace std;
-	if (argc != 3) {
-		cerr << "usage: " << argv[0] << " filename (min|max)" << endl;
+	// will not run without additional argument
+	if (argc == 1) {
+		printUsage(argv[0]);
 		cerr << "Not enough arguments were supplied." << endl;
 		exit(1);
 	}
+	// single argument must be either help or a problem
+	else if (argc == 2 ) {
+		if ( strcmp(argv[1], "help") == 0 ) {
+			printUsage(argv[0]);
+			cerr << "Help stuff" << endl;
+			exit(0); // not exactly an error
+		}
+		else if ( strcmp(argv[1], "p18") == 0 ) {
+			argv[1] = "data/triangle4.txt";
+			argv[2] = "max";
+		}	
+		else if ( strcmp(argv[1], "p67") == 0 ) {
+			argv[1] = "data/triangle100.txt";
+			argv[2] = "max";
+		}	
+		else if ( strcmp(argv[1], "p81") == 0 ) {
+			argv[1] = "data/matrix.txt";
+			argv[2] = "min";
+		}	
+		else {
+			printUsage(argv[0]);
+			cerr << "Not enough arguments were supplied." << endl;
+			exit(1);
+		}
+	}
+
+	// run with either problem file or argument file
 	MatrixReader mRInstance(argv[1]);
-	
-	// FIXME need MANY MANY error checkings
-	// particularly # of argv
-	// and is file open
-	// and is the data perfectly formed
-	// and blah 
-	
+
+	// match second argument to pathType enum
 	PathFinder::pathType_t pathType; 
 	if (strcmp(argv[2], "min") == 0)
 		pathType = PathFinder::PATHTYPE_MIN;
 	else if (strcmp(argv[2], "max") == 0)
 		pathType = PathFinder::PATHTYPE_MAX;
 	else {
-		cerr << "usage: " << argv[0] << " filename (min|max)" << endl;
+		printUsage(argv[0]);
 		cerr << "Second argument must be 'min' or 'max'." << endl;
 		return 1;
 	}
@@ -211,6 +238,7 @@ int main (int argc, char const* argv[])
 	
 	// FIXME this still prints original matrix
 	// presumably because PathFinder::getSum is editing PathFinder's _matrix
+
 	// std::cout << "Computed Matrix: " << std::endl;
 	// mRInstance.printMatrix();		
 
