@@ -2,12 +2,12 @@
 #define _MATRIX_HPP
 
 #include <iostream>
-#include <fstream>
 #include <cstdio>
-#include <string>
-#include <inttypes.h>
-#include <vector>
+#include <fstream>
 #include <sstream>
+#include <inttypes.h>
+#include <string>
+#include <vector>
 #include <algorithm>
 
 class MatrixReader {
@@ -48,18 +48,15 @@ class PathFinder {
 
 		uint32_t compare(uint32_t a, uint32_t b);
 			
-	private:
-		pathType_t _pathType;
+	private: pathType_t _pathType;
 		
-	protected: 
-		matrix_t _matrix; 		
+	protected: matrix_t _matrix; 		
 };
 
 class PathFinderSquare1: public PathFinder {
 	public: 
 		//constructor
 		PathFinderSquare1 (matrix_t matrix, pathType_t pathType);
-		
 		uint32_t getSum();
 };
 
@@ -67,7 +64,6 @@ class PathFinderTriangle1: public PathFinder {
 	public: 
 		//constructor 
 		PathFinderTriangle1 (matrix_t matrix, pathType_t pathType);
-		
 		uint32_t getSum();	
 }; 
 

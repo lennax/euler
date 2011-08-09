@@ -10,7 +10,7 @@ MatrixReader::MatrixReader (std::string fileName) :
 	file.open(_fileName.c_str());
 
 	if(!file.is_open()) {
-		cout << "could not open file: " << _fileName << endl;
+		cout << "Could not open file: " << _fileName << endl;
 		exit(1);
 	}
 
@@ -50,20 +50,25 @@ MatrixReader::matrix_t MatrixReader::getMatrix() {
 
 // determine whether matrix is triangle or square
 MatrixReader::shape_t MatrixReader::getShape() {
-	// std::cout << "height: " << _matrix.size() << std::endl;
-	// std::cout << "0 width: " << _matrix[0].size() << std::endl;
-	// std::cout << "n width: " << _matrix[_matrix.size()-1].size() << std::endl;
-
 	// check height is equal to last row width
 	if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
-		// square first row width is equal to last row width
-		if ( _matrix[_matrix.size()-1].size() == _matrix[0].size() ) {
-			return SHAPE_SQUARE;
-		// triangle first row width is 1
-		} else if ( _matrix[0].size() == 1 ) {
-			return SHAPE_TRIANGLE;
+		uint32_t triangleCheck = 0;
+		uint32_t squareCheck = 0;
+		
+		for (uint32_t i=0; i<_matrix.size()-1; i++) {
+			if ( _matrix[i].size() == i+1 ) 
+				triangleCheck++;
+			else if ( _matrix[i].size() == _matrix.size() ) 
+				squareCheck++;
+			else break;
 		}
-	} else return SHAPE_ERROR;
+		if ( triangleCheck == _matrix.size()-1 ) 
+			return SHAPE_TRIANGLE;
+		else if ( squareCheck == _matrix.size()-1 )
+			return SHAPE_SQUARE;
+		else return SHAPE_ERROR;
+	} 
+	else return SHAPE_ERROR;	
 }
 
 void MatrixReader::printMatrix() {
@@ -159,7 +164,11 @@ uint32_t PathFinderTriangle1::getSum() {
 int main (int argc, char const* argv[])
 {
 	using namespace std;
-	// const char * fileName = argv[1];
+	if (argc != 3) {
+		cerr << "usage: " << argv[0] << " filename (min|max)" << endl;
+		cerr << "Not enough arguments were supplied." << endl;
+		exit(1);
+	}
 	MatrixReader mRInstance(argv[1]);
 	
 	// FIXME need MANY MANY error checkings
@@ -184,13 +193,23 @@ int main (int argc, char const* argv[])
 	switch(mRInstance.getShape()) {
 		case MatrixReader::SHAPE_SQUARE:
 			p = new PathFinderSquare1(mRInstance.getMatrix(), pathType);
+			std::cout << "Original Matrix: " << std::endl;
+			mRInstance.printMatrix();
 			break;
 		case MatrixReader::SHAPE_TRIANGLE: 
 			p = new PathFinderTriangle1(mRInstance.getMatrix(), pathType);
 			break;
+		default: 
+			std::cerr << "Supplied data is not of a valid shape." << std::endl;
+			exit(1);
 	}
+
 	std::cout << "Sum: " << p->getSum() << std::endl;
-		
+	
+	// FIXME this still prints original matrix
+	// presumably because PathFinder::getSum is editing PathFinder's _matrix
+	// std::cout << "Computed Matrix: " << std::endl;
+	// mRInstance.printMatrix();		
 
 	// cleanup 
 	delete p; 
