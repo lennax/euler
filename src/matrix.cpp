@@ -52,16 +52,19 @@ MatrixReader::matrix_t MatrixReader::getMatrix() {
 MatrixReader::shape_t MatrixReader::getShape() {
 	// check height is equal to last row width
 	if ( _matrix.size() == _matrix[_matrix.size()-1].size() ) {
+		// count valid rows
 		uint32_t triangleCheck = 0;
 		uint32_t squareCheck = 0;
-		
 		for (uint32_t i=0; i<_matrix.size()-1; i++) {
-			if ( _matrix[i].size() == i+1 ) 
-				triangleCheck++;
-			else if ( _matrix[i].size() == _matrix.size() ) 
+			// square is constant width
+			if ( _matrix[i].size() == _matrix.size() ) 
 				squareCheck++;
+			// triangle increases stepwise
+			else if ( _matrix[i].size() == i+1 ) 
+				triangleCheck++;
 			else break;
 		}
+		// number of valid rows should match height
 		if ( triangleCheck == _matrix.size()-1 ) 
 			return SHAPE_TRIANGLE;
 		else if ( squareCheck == _matrix.size()-1 )
