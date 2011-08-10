@@ -14,7 +14,12 @@ add_library(eulerCommon SHARED ${eulerCommonSource})
 
 add_executable(matrix matrix.cpp)
 
+add_executable(gmp_test gmp_test.cpp)
+
 add_executable(p19 p19.cpp)
+
+add_executable(p25 p25.cpp)
+target_link_libraries(p25 eulerCommon)
 
 add_executable(p27 p27.cpp)
 target_link_libraries(p27 eulerCommon)
