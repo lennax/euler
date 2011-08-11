@@ -9,17 +9,21 @@ set(eulerCommonHeaders
 	)
 add_library(eulerCommon SHARED ${eulerCommonSource})
 
+include_directories(${GMP_INCLUDE_DIR})
+#link_libraries(${GMP_LIBRARY})
+
 # problems
 #add_executable(p18 p18.cpp)
 
 add_executable(matrix matrix.cpp)
 
 add_executable(gmp_test gmp_test.cpp)
+target_link_libraries(gmp_test ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 
 add_executable(p19 p19.cpp)
 
 add_executable(p25 p25.cpp)
-target_link_libraries(p25 eulerCommon)
+target_link_libraries(p25 eulerCommon ${GMP_LIBRARY})
 
 add_executable(p27 p27.cpp)
 target_link_libraries(p27 eulerCommon)

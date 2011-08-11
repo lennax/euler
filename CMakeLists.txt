@@ -85,4 +85,7 @@ endif(Fortran_langurage_works)
 # add make dist target
 add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
+# find libraries with cmake modules
+find_package(GMP)
+
 add_subdirectory(src)

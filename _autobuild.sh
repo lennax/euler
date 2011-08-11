@@ -5,8 +5,6 @@ MAKEARGS="-j8"
 function menu {
 	while [ 1 ] 
 	do
-		echo -n "Please enter your choice: " && read OPT
-		echo 
 		echo 1. in_source_build: is used for development.
 		echo 2. install_build: is used for building before final installation to the system.
 		echo 3. grab_debian_dependencies: installs all the required packages for debian based systems -- ubuntu maverick/ debian squeeze,lenny
@@ -15,6 +13,10 @@ function menu {
 		echo 6. remake: calls make again after project has been configured as install or in source build
 		echo 7. clean: removes the build directory 
 		echo 8. end
+		echo -n "Please enter your choice: " && read OPT
+		if [ $OPT > 0 && $OPT < 9 ] 
+		then break;
+		fi
 	done
 }
 
