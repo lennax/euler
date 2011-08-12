@@ -14,6 +14,10 @@ include_directories(${GMP_INCLUDE_DIR})
 #link_libraries(${GMP_LIBRARY})
 
 # problems
+
+add_executable(p2 p2.cpp)
+target_link_libraries(p2 eulerCommon ${GMPXX_LIBRARY})
+
 #add_executable(p18 p18.cpp)
 
 add_executable(matrix matrix.cpp)

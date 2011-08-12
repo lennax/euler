@@ -21,7 +21,7 @@ extern "C" {
 }
  
 	// compute nth fibonacci term
-	mpf_class fib(uint32_t n);
+	mpf_class getFib(uint32_t n);
 
 	// overload pow() for mpf_class
 	mpf_class pow(mpf_class base, uint32_t exp);

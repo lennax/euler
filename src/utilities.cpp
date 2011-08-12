@@ -50,7 +50,7 @@ char *itoa(int num, char *str, int radix) {
 }
 
 // compute nth fibonacci term
-mpf_class fib(uint32_t n) {
+mpf_class getFib(uint32_t n) {
 	mpf_class fib;
 	mpf_class phi = (1+sqrt(5))/2;
 	// this equation is exact, so floor() is dangerous
