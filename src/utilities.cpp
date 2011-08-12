@@ -1,9 +1,7 @@
 #include "utilities.hpp"
 
-// itoa
-
 /*******************************************************
-* Code contributed by Chris Takahashi,                 *
+* itoa code contributed by Chris Takahashi,            *
 * ctakahashi (at) users (dot) sourceforge (dot) net.   *
 * See stdlib.h for licence.                            *
 * $Date: 2005/08/31 11:39:47 $                         *
@@ -49,5 +47,33 @@ char *itoa(int num, char *str, int radix) {
     str[str_loc] = 0; // add null termination.
 
     return str;
+}
+
+// compute nth fibonacci term
+mpf_class fib(uint32_t n) {
+	mpf_class fib;
+	mpf_class phi = (1+sqrt(5))/2;
+	fib = floor( (pow(phi,n) - pow(1-phi,n) ) / sqrt(5) );
+	return fib;
+}
+
+// overload pow() for mpf_class
+mpf_class pow(mpf_class base, uint32_t exp) {
+	mpf_class result;
+	mpf_ptr resultPtr = result.get_mpf_t();
+	mpf_ptr basePtr = base.get_mpf_t();
+	mpf_pow_ui(resultPtr, basePtr, exp);
+	return result; 
+}
+
+// return exponent (0.x ^ exp) of an mpf_class
+mp_exp_t getExp(mpf_class f_class) {
+	mpf_ptr fl = f_class.get_mpf_t();
+	char * str;
+	mp_exp_t exp;
+	int base = 10;
+	size_t n_digits = 2;
+	mpf_get_str(str, &exp, base, n_digits, fl);
+	return exp;
 }
 

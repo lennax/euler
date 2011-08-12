@@ -8,6 +8,7 @@ set(eulerCommonHeaders
 	utilities.hpp
 	)
 add_library(eulerCommon SHARED ${eulerCommonSource})
+target_link_libraries(eulerCommon ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 
 include_directories(${GMP_INCLUDE_DIR})
 #link_libraries(${GMP_LIBRARY})
