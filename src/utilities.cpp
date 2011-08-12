@@ -53,7 +53,8 @@ char *itoa(int num, char *str, int radix) {
 mpf_class fib(uint32_t n) {
 	mpf_class fib;
 	mpf_class phi = (1+sqrt(5))/2;
-	fib = floor( (pow(phi,n) - pow(1-phi,n) ) / sqrt(5) );
+	// fib = floor( (pow(phi,n) - pow(1-phi,n) ) / sqrt(5) );
+	fib = (pow(phi,n) - pow(1-phi,n) ) / sqrt(5);
 	return fib;
 }
 
@@ -68,9 +69,9 @@ mpf_class pow(mpf_class base, uint32_t exp) {
 
 // return exponent (0.x ^ exp) of an mpf_class
 mp_exp_t getExp(mpf_class f_class) {
+	mp_exp_t exp;
 	mpf_ptr fl = f_class.get_mpf_t();
 	char * str;
-	mp_exp_t exp;
 	int base = 10;
 	size_t n_digits = 2;
 	mpf_get_str(str, &exp, base, n_digits, fl);
