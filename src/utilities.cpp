@@ -53,7 +53,8 @@ char *itoa(int num, char *str, int radix) {
 mpf_class fib(uint32_t n) {
 	mpf_class fib;
 	mpf_class phi = (1+sqrt(5))/2;
-	// fib = floor( (pow(phi,n) - pow(1-phi,n) ) / sqrt(5) );
+	// this equation is exact, so floor() is dangerous
+	// mpf_class will absorb any flop errors
 	fib = (pow(phi,n) - pow(1-phi,n) ) / sqrt(5);
 	return fib;
 }
