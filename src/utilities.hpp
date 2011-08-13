@@ -9,9 +9,10 @@
 #define _UTILITIES_HPP
 
 #include <stdlib.h>
-#include <inttypes.h> // fib() and pow(): for uint32_t
-#include <gmpxx.h> // fib() and pow(): for mpf_class etc
-#include <math.h> // fib(): for sqrt()
+#include <iostream> // smallFib(): cerr, endl
+#include <inttypes.h> // getFib() and pow(): for uint32_t
+#include <gmpxx.h> // getFib() and pow(): for mpf_class etc
+#include <math.h> // getFib(): for sqrt()
 
 extern "C" {
 
@@ -22,6 +23,9 @@ extern "C" {
  
 	// compute nth fibonacci term
 	mpf_class getFib(uint32_t n);
+	
+	// compute fibonacci term (n < 1482)
+	double smallFib(double n);
 
 	// overload pow() for mpf_class
 	mpf_class pow(mpf_class base, uint32_t exp);

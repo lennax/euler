@@ -59,6 +59,20 @@ mpf_class getFib(uint32_t n) {
 	return fib;
 }
 
+// compute fibonacci term (n < 1482)
+double smallFib(double n) {
+	if ( n > 1481 ) {
+		std::cerr << "use getFib() for n=" << n << std::endl;
+		return(-1);
+	}
+	double fib;
+	double phi = (1+sqrt(5))/2;
+	// this equation is exact, so floor() is dangerous
+	// mpf_class will absorb any flop errors
+	fib = (pow(phi,n) - pow(1-phi,n) ) / sqrt(5);
+	return fib;
+}
+
 // overload pow() for mpf_class
 mpf_class pow(mpf_class base, uint32_t exp) {
 	mpf_class result;
