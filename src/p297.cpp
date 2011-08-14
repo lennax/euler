@@ -11,8 +11,8 @@ class Zeckendorf
 public:
 	Zeckendorf(mpz_class argMin, mpz_class argMax)
 	{
-		// construct vector 
-		for ( mpz_class i=argMin; i<argMax+1; i++ ) {
+		// construct vector (99th term is well over 10^19)
+		for ( mpz_class i=argMin; i<100; i++ ) {
 			mpz_class fib = smallFib(i.get_ui());
 			if ( fib <= argMax ) {
 				_fibs.push_back(fib);

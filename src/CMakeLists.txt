@@ -22,6 +22,9 @@ include_directories(${GMP_INCLUDE_DIR})
 
 add_executable(matrix matrix.cpp)
 
+add_executable(fibs_test fibs_test.cpp)
+target_link_libraries(fibs_test eulerCommon ${GMPXX_LIBRARY})
+
 add_executable(gmp_test gmp_test.cpp)
 target_link_libraries(gmp_test ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 
