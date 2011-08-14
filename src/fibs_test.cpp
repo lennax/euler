@@ -15,11 +15,6 @@ int getZeck (mpz_class i, int fibIndex, bool recurse) {
 	if ( !recurse ) zeck = 1;
 	mpz_class number = i;
 
-	if ( zeck == 1 && number == fibs[fibIndex] ) {
-		std::cout << "fib z: " << zeck << std::endl;
-		return zeck;
-	}
-	while ( number > 3 ) {
 		number -= fibs[fibIndex];
 		//std::cout << fibs[fibIndex] << "\t";
 		zeck++;
@@ -28,11 +23,10 @@ int getZeck (mpz_class i, int fibIndex, bool recurse) {
 				std::cout << "z: " << zeck << std::endl;
 				return zeck; 
 			}
-			else if ( x > 2 && number > fibs[x] ) {
+			else if ( x > 1 && number > fibs[x] ) {
 				getZeck( number, x, true );
 			}
 		}
-	}
 }
 
 int main () {
@@ -55,6 +49,11 @@ int main () {
 		//maxFib = fibs[fibIndex]; 
 
 		std::cout << "i: " << i << "\t";
-	   	getZeck(i, fibIndex, 0);
+		
+		// if i is a fib, zeck is 1, else find zeck
+		int zeck = (i == fibs[fibIndex]) ? 1 : getZeck(i, fibIndex, false);
+		
+		if ( zeck == 1 ) std::cout << "z: 1" << std::endl;
+		//getZeck(i, fibIndex, 0);
 	}
 }
