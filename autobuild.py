@@ -15,6 +15,9 @@ def grab_debian_dependencies():
 	print "You chose to install Debian dependencies"
 	os.system("sudo apt-get install cmake")
 
+def profile():
+	os.system("mkdir -p build && cd build && cmake -DBUILD_TYPE=PROFILE -DIN_SRC_BUILD::bool=TRUE .. && make -j8")
+
 def remake():
 	print "You chose to recall make on the previously configured build"
 	os.system("cd build && make -j8")
@@ -43,6 +46,7 @@ else:
 	print "6. remake: calls make again after project has been configured as install or in source build"
 	print "7. clean: removes the build directory"
 	print "8. end"
+	print "9. profile"
 	opt = raw_input("Please choose an option: ")
 	#print "Input option: %s" % (s)
 
@@ -64,6 +68,8 @@ elif (opt == 7):
 	clean()
 elif (opt == 8):
 	raise SystemExit
+elif (opt == 9):
+	profile()
 
 #print "Run cmake..."
 #os.system("cmake --version")

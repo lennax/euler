@@ -50,14 +50,32 @@ char *itoa(int num, char *str, int radix) {
 }
 
 // compute nth fibonacci term
-mpf_class getFib(uint32_t n) {
-	mpf_class fib;
-	mpf_class phi = (1+sqrt(5))/2;
-	// this equation is exact, so floor() is dangerous
-	// mpf_class will absorb any flop errors
-	fib = (pow(phi,n) - pow(1-phi,n) ) / sqrt(5);
+//mpf_class getFib(uint32_t n) {
+	//mpf_class fib;
+	//mpf_class phi = (1+sqrt(5))/2;
+	//// this equation is exact, so floor() is dangerous
+	//// mpf_class will absorb any flop errors
+	//fib = (pow(phi,n) - pow(1-phi,n) ) / sqrt(5);
+	//return fib;
+//}
+
+mpz_class intFib(const uint32_t n) {
+	mpz_class fib; 
+	// fib = ( mpf_pow((1+sqrt(5))/2,n) - mpf_pow((1-sqrt(5))/2,n) ) / sqrt(5);
+	static const mpf_class phi = (1+sqrt(5))/2;
+	// fib = floor ( mpf_pow( phi, n ) / sqrt(5) + 1/2 );
+	// fib = mpf_pow (phi, n) / sqrt(5);
+	fib = floor ( mpf_pow( phi, n ) / sqrt(5) + 0.5 );
 	return fib;
 }
+
+//mpz_class mpz_pow(mpz_class base, uint32_t exp) {
+	//mpz_class result;
+	//mpz_ptr resultPtr = result.get_mpz_t();
+	//mpz_ptr basePtr = base.get_mpz_t();
+	//mpz_pow_ui(resultPtr, basePtr, exp);
+	//return result; 
+//}
 
 // compute fibonacci term (n < 1482)
 double smallFib(double n) {
@@ -74,10 +92,10 @@ double smallFib(double n) {
 }
 
 // overload pow() for mpf_class
-mpf_class pow(mpf_class base, uint32_t exp) {
+mpf_class mpf_pow( const mpf_class base, const uint32_t exp) {
 	mpf_class result;
 	mpf_ptr resultPtr = result.get_mpf_t();
-	mpf_ptr basePtr = base.get_mpf_t();
+	const mpf_ptr basePtr = (const mpf_ptr) base.get_mpf_t();
 	mpf_pow_ui(resultPtr, basePtr, exp);
 	return result; 
 }
