@@ -1,6 +1,6 @@
 #include <iostream>
 #include <gmpxx.h> // for mpz_class 
-// #include <inttypes.h>
+#include <inttypes.h>
 #include "utilities.cpp" // for smallFib()
 #include <vector>
 #include <algorithm> // for binary_search()
@@ -38,40 +38,48 @@ public:
 			// std::cout << "i: " << i << "\t";
 
 			// if i is a fib, zeck is 1, else find zeck
-			int zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
+
+		//int zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
 
 			// if ( zeck == 1 ) std::cout << "z: 1" << std::endl;
 
 			// std::cout << "i: " << i << "\tfi: " << fibIndex << "\tz: " << zeck << std::endl;
-			zeckSum += zeck;
+		//zeckSum += zeck;
 		}
 
 		// std::cout << "Sum of Zeckendorf numbers 0<n<" << argMax << ": ";
 		// 	std::cout << zeckSum << std::endl;		
 			
 		// std::cout << _fibs.size() << std::endl;
-		std::cout << _getZeck(12, 4) << std::endl;
+		mpz_class zeckMpz = _getZeck(12,4);
+		int zeckInt = zeckMpz.get_si();
+		std::cout << zeckInt << std::endl;
 		
 	}
 
 private:
 	std::vector<mpz_class> _fibs;
 
-	int _getZeck (mpz_class i, int fibIndex) {
-		_getZeckRecursive(i, fibIndex, 1);
+	mpz_class _getZeck (mpz_class arg, int fIndex) {
+		std::cout << arg << std::endl;
+		mpz_class z = 1;
+		return _getZeckRecursive(arg, fIndex, z);
 	}
 
-	int _getZeckRecursive (mpz_class i, int fibIndex, int zeck) {
+	mpz_class _getZeckRecursive (mpz_class j, int fIndex, mpz_class zeck) {
 		// static int zeck = 1;
 		// if ( !recurse ) zeck = 1;
-		mpz_class number = i;
+		mpz_class number = j;
 
-		number -= _fibs[fibIndex];
+		number -= _fibs[fIndex];
 		//std::cout << _fibs[fibIndex] << "\t";
 		zeck++;
-		for ( int x = fibIndex-2; x>-1; x-- ) {
+
+		std::cout << number << "\t" << _fibs[fIndex] << "\t";
+
+		for ( int x = fIndex-2; x>-1; x-- ) {
 			if ( number == _fibs[x] ) {
-				// std::cout << "z: " << zeck << std::endl;
+				std::cout << "z: " << zeck << std::endl;
 				return zeck; 
 			}
 			else if ( x > 1 && number > _fibs[x] ) {
