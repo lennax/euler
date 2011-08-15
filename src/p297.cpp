@@ -39,7 +39,7 @@ public:
 
 			// if i is a fib, zeck is 1, else find zeck
 
-		//int zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
+		mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
 
 			// if ( zeck == 1 ) std::cout << "z: 1" << std::endl;
 
@@ -51,9 +51,10 @@ public:
 		// 	std::cout << zeckSum << std::endl;		
 			
 		// std::cout << _fibs.size() << std::endl;
-		mpz_class zeckMpz = _getZeck(12,4);
-		int zeckInt = zeckMpz.get_si();
-		std::cout << zeckInt << std::endl;
+
+		//mpz_class zeckMpz = _getZeck(12,4);
+		//int zeckInt = zeckMpz.get_si();
+		//std::cout << zeckInt << std::endl;
 		
 	}
 
@@ -62,8 +63,7 @@ private:
 
 	mpz_class _getZeck (mpz_class arg, int fIndex) {
 		std::cout << arg << std::endl;
-		mpz_class z = 1;
-		return _getZeckRecursive(arg, fIndex, z);
+		return _getZeckRecursive(arg, fIndex, 1);
 	}
 
 	mpz_class _getZeckRecursive (mpz_class j, int fIndex, mpz_class zeck) {
@@ -75,17 +75,26 @@ private:
 		//std::cout << _fibs[fibIndex] << "\t";
 		zeck++;
 
-		std::cout << number << "\t" << _fibs[fIndex] << "\t";
+		//if ( number > 0 && number < 4 ) {
+			//zeck++;
+			//return zeck;
+		//}
+		//std::cout << number << "\t" << _fibs[fIndex] << "\t";
 
 		for ( int x = fIndex-2; x>-1; x-- ) {
-			if ( number == _fibs[x] ) {
+			if ( number < _fibs[x] ) {
+				continue;
+			}
+			else if ( number == _fibs[x] ) {
 				std::cout << "z: " << zeck << std::endl;
 				return zeck; 
 			}
-			else if ( x > 1 && number > _fibs[x] ) {
+			else if ( x > 2 && number > _fibs[x] ) {
 				_getZeckRecursive( number, x, zeck );
 			}
 		}
+		std::cout << "did not return" << std::endl;
+		return zeck;
 	}
 	
 };
