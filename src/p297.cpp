@@ -46,6 +46,8 @@ public:
 		// std::cout << "Sum of Zeckendorf numbers <" << argMax << ": " << zeckSum << std::endl;
 		
 		mpz_class zeckTotal = 2, zeckRunning = 1, zNum = 1;
+		uint32_t kNum = 3;
+		bool rAdded = false;
 		uint32_t fibIndex = _fibs.size() - 2; // second to last fib
 		// std::cout << "fibIndex: " << fibIndex << std::endl;
 		for ( mpz_class i = _fibs[fibIndex] + 1; i < _fibs[fibIndex+1]; i++ ) {
@@ -53,14 +55,21 @@ public:
 			// std::cout << "zeck: " << zeck << std::endl;
 			zeckRunning += zeck;
 			zNum++;
-			for ( uint32_t k = 3; k < fibIndex+1; k++ ) {
-				if ( zNum == _fibs[k] || zNum == argMax - _fibs[fibIndex+1] ) {
-					zeckTotal += zeckRunning;
-					std::cout << "i: " << i << " \tzR: " << zeckRunning;
-					std::cout << "\tzN: " << zNum;
-					std::cout << "\tk: " << k << std::endl;
-					break;
-				}
+			// for ( uint32_t k = kNum; k < fibIndex+1; k++ ) {
+			// 	if ( zNum == _fibs[k] || zNum == argMax - _fibs[fibIndex+1] ) {
+			// 		zeckTotal += zeckRunning;
+			// 		std::cout << "i: " << i << " \tzR: " << zeckRunning;
+			// 		std::cout << "\tzN: " << zNum;
+			// 		std::cout << "\tk: " << k << std::endl;
+			// 		break;
+			// 	}
+			// }
+			mpz_class r = argMax - _fibs[fibIndex+1];
+			// only need to add once for each fib
+			if ( zNum == _fibs[kNum] || ( rAdded == false && zNum == r ) ) {
+				zeckTotal += zeckRunning;
+				if (kNum < fibIndex+2) kNum++;
+				break;
 			}
 		}
 		std::cout << "Sum of Zeckendorf numbers: " << zeckTotal << std::endl;
