@@ -12,32 +12,58 @@ public:
 	Zeckendorf(mpz_class argMax)
 	{
 		// construct vector (99th term is well over 10^19)
-		for ( mpz_class i = 2; i < 100; i++ ) {
+		for ( mpz_class i = 0; i < 100; i++ ) {
 			mpz_class fib = smallFib(i.get_ui());
-			if ( fib <= argMax ) {
+			if ( fib < argMax ) {
 				_fibs.push_back(fib);
 			} 
 			else break;	
 		}
 		std::cout << "Created vector of fibs under " << argMax << std::endl;
+		// for (int k = 0; k < _fibs.size(); k++) {
+		// 	std::cout << k << ": ";
+		// 	std::cout << _fibs[k] << std::endl;
+		// }
+		// std::cout << "r: " << argMax - _fibs[_fibs.size()-1] << std::endl;
 		
-		mpz_class zeckSum = 0;
-		// find closest fib and pass to _getZeck()
-		uint32_t fibIndex = 0;
-		for ( mpz_class i = 1; i < argMax; i++ ) {
-			if ( i > 1 && i == _fibs[fibIndex+1] ) {
-				fibIndex++; // i is fib so increase index
-			} 
-
-			// if i is a fib, zeck is 1, else find zeck
-			mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
-
-			zeckSum += zeck;
-			if ( argMax > 1000000000 && i % 1000000 == 0 ) {
-				std::cout << i << "\tz: " << zeck << std::endl;
+		// mpz_class zeckSum = 0;
+		// // find closest fib and pass to _getZeck()
+		// uint32_t fibIndex = 0;
+		// for ( mpz_class i = 1; i < argMax; i++ ) {
+		// 	if ( i > 1 && i == _fibs[fibIndex+1] ) {
+		// 		fibIndex++; // i is fib so increase index
+		// 	} 
+		// 
+		// 	// if i is a fib, zeck is 1, else find zeck
+		// 	mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
+		// 
+		// 	zeckSum += zeck;
+		// 	// if ( argMax > 1000000000 && i % 1000000 == 0 ) {
+		// 		if ( zeck == 1 ) std::cout << std::endl;
+		// 		std::cout << i << "\tz: " << zeck << std::endl;
+		// 	// }
+		// }
+		// std::cout << "Sum of Zeckendorf numbers <" << argMax << ": " << zeckSum << std::endl;
+		
+		mpz_class zeckTotal = 2, zeckRunning = 1, zNum = 1;
+		uint32_t fibIndex = _fibs.size() - 2; // second to last fib
+		// std::cout << "fibIndex: " << fibIndex << std::endl;
+		for ( mpz_class i = _fibs[fibIndex] + 1; i < _fibs[fibIndex+1]; i++ ) {
+			mpz_class zeck = _getZeck(i, fibIndex);
+			// std::cout << "zeck: " << zeck << std::endl;
+			zeckRunning += zeck;
+			zNum++;
+			for ( uint32_t k = 3; k < fibIndex+1; k++ ) {
+				if ( zNum == _fibs[k] || zNum == argMax - _fibs[fibIndex+1] ) {
+					zeckTotal += zeckRunning;
+					std::cout << "i: " << i << " \tzR: " << zeckRunning;
+					std::cout << "\tzN: " << zNum;
+					std::cout << "\tk: " << k << std::endl;
+					break;
+				}
 			}
 		}
-		std::cout << "Sum of Zeckendorf numbers <" << argMax << ": " << zeckSum << std::endl;
+		std::cout << "Sum of Zeckendorf numbers: " << zeckTotal << std::endl;
 	}
 
 private:
@@ -65,8 +91,9 @@ private:
 
 int main(int argc, char const* argv[]) {
 	// use default argument if none is specified
-	mpz_class defaultArg = 100000000000000000;
-	mpz_class argMax = (argc == 2 ) ? atoi(argv[1]) : defaultArg;
+	mpz_class p297Test = 1000000; // 7894453
+	// mpz_class p297Arg = 100000000000000000;
+	mpz_class argMax = (argc == 2 ) ? atoi(argv[1]) : p297Test;
 	Zeckendorf zeckInst (argMax);
 
 	return 0;
