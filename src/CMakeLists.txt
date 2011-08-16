@@ -2,10 +2,12 @@
 set(eulerCommonSource
 	PrimeFinder.cpp
 	utilities.cpp
+	matrix.cpp
 	)
 set(eulerCommonHeaders
 	PrimeFinder.hpp
 	utilities.hpp
+	matrix.hpp
 	)
 add_library(eulerCommon SHARED ${eulerCommonSource})
 target_link_libraries(eulerCommon ${GMP_LIBRARY} ${GMPXX_LIBRARY})
@@ -18,15 +20,14 @@ include_directories(${GMP_INCLUDE_DIR})
 #add_executable(p2 p2.cpp)
 #target_link_libraries(p2 eulerCommon ${GMPXX_LIBRARY})
 
-#add_executable(p18 p18.cpp)
-
-add_executable(matrix matrix.cpp)
-
 add_executable(fibs_test fibs_test.cpp)
 target_link_libraries(fibs_test eulerCommon ${GMPXX_LIBRARY})
 
 add_executable(gmp_test gmp_test.cpp)
 target_link_libraries(gmp_test ${GMP_LIBRARY} ${GMPXX_LIBRARY})
+
+add_executable(p18 p18.cpp)
+target_link_libraries(p18 eulerCommon)
 
 add_executable(p19 p19.cpp)
 
@@ -46,6 +47,9 @@ target_link_libraries(p297 eulerCommon ${GMPXX_LIBRARY})
 
 add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
+
+add_executable(sudoku sudoku.cpp)
+target_link_libraries(sudoku eulerCommon)
 
 # installed programs
 #install(TARGETS p18 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

@@ -20,14 +20,14 @@ public:
 			else break;	
 		}
 		
-		// for (int k=0; k <_fibs.size(); k++) {
-		// 	std::cout << _fibs[k] << std::endl;
-		// }
+		//for (int k=0; k <_fibs.size(); k++) {
+			//std::cout << _fibs[k] << std::endl;
+		//}
 
 		mpz_class zeckSum = 0;
 		// find closest fib and pass to _getZeck()
-		int fibIndex = 0;
-		for ( mpz_class i = 1; i < argMax; i++ ) {
+		uint32_t fibIndex = 0;
+		for ( mpz_class i = 1; i < argMax+1; i++ ) {
 			if ( i > 1 && i == _fibs[fibIndex+1] ) {
 				fibIndex++; // i is fib so increase index
 			} 
@@ -39,11 +39,11 @@ public:
 
 			// if i is a fib, zeck is 1, else find zeck
 
-		mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
+		//mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
 
-			// if ( zeck == 1 ) std::cout << "z: 1" << std::endl;
+			//if ( zeck == 1 ) std::cout << i << " z: 1" << std::endl;
 
-			// std::cout << "i: " << i << "\tfi: " << fibIndex << "\tz: " << zeck << std::endl;
+			//std::cout << "i: " << i << "\tz: " << zeck << std::endl;
 		//zeckSum += zeck;
 		}
 
@@ -55,18 +55,18 @@ public:
 		//mpz_class zeckMpz = _getZeck(12,4);
 		//int zeckInt = zeckMpz.get_si();
 		//std::cout << zeckInt << std::endl;
-		
+		std::cout << "(12,4)" << _getZeck(12,4) << std::endl;
 	}
 
 private:
 	std::vector<mpz_class> _fibs;
 
-	mpz_class _getZeck (mpz_class arg, int fIndex) {
-		std::cout << arg << std::endl;
+	mpz_class _getZeck (mpz_class arg, uint32_t fIndex) {
+		//std::cout << arg << " ";
 		return _getZeckRecursive(arg, fIndex, 1);
 	}
 
-	mpz_class _getZeckRecursive (mpz_class j, int fIndex, mpz_class zeck) {
+	mpz_class _getZeckRecursive (mpz_class j, uint32_t fIndex, mpz_class zeck) {
 		// static int zeck = 1;
 		// if ( !recurse ) zeck = 1;
 		mpz_class number = j;
@@ -75,26 +75,29 @@ private:
 		//std::cout << _fibs[fibIndex] << "\t";
 		zeck++;
 
-		//if ( number > 0 && number < 4 ) {
+		if ( number > (mpz_class)0 && number < (mpz_class)4 ) {
 			//zeck++;
-			//return zeck;
-		//}
+			return zeck;
+		}
 		//std::cout << number << "\t" << _fibs[fIndex] << "\t";
 
-		for ( int x = fIndex-2; x>-1; x-- ) {
-			if ( number < _fibs[x] ) {
-				continue;
-			}
-			else if ( number == _fibs[x] ) {
-				std::cout << "z: " << zeck << std::endl;
+		std::cout << "number: " << number << std::endl;
+		for ( uint32_t x = fIndex-2; x >= (uint32_t)0; x-- ) {
+			std::cout << "fIndex: " << fIndex << std::endl;
+			std::cout << "x: " << x << std::endl;
+			std::cout << "_fibs[x]: " << _fibs[x] << std::endl;
+			if ( (int)number.get_ui() == (int)_fibs[x].get_ui() ) {
+				//std::cout << "z: " << zeck << std::endl;
 				return zeck; 
 			}
-			else if ( x > 2 && number > _fibs[x] ) {
+			else if ( x > 1 && (int)number.get_ui() > (int)_fibs[x].get_ui() ) {
+				std::cout << "Recursing: " << number << " ";
+				std::cout << x << " " << zeck << std::endl;
 				_getZeckRecursive( number, x, zeck );
 			}
 		}
 		std::cout << "did not return" << std::endl;
-		return zeck;
+		//return zeck;
 	}
 	
 };
