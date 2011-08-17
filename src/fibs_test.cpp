@@ -10,6 +10,15 @@
 
 mpz_class fibs[8] = {1,2,3,5,8,13,21,34};
 
+mpz_class lek () {
+	static const mpf_class phi = (1+sqrt(5))/2;
+	// mpz_class bigNum = 100000000000000000;
+	mpz_class smallNum = 20;
+	mpz_class avg = smallNum / ( phi * phi + 1 );
+	return avg;
+	
+}
+
 int _getZeck (mpz_class i, int fibIndex, bool recurse = false) {
 	static int zeck = 1;
 	if ( !recurse ) zeck = 1;
@@ -46,6 +55,8 @@ int main () {
 		int zeck = (i == fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
 		
 		if ( zeck == 1 ) std::cout << "z: 1" << std::endl;
+		
 
 	}
+		std::cout << "lek: " << lek() << std::endl;
 }

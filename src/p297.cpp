@@ -13,7 +13,7 @@ public:
 	{
 		// construct vector (99th term is well over 10^17)
 		for ( mpz_class i = 0; i < 100; i++ ) {
-			mpz_class fib = smallFib(i.get_ui());
+			mpz_class fib = intFib(i.get_ui());
 			if ( fib < argMax ) {
 				_fibs.push_back(fib);
 			} 
@@ -49,10 +49,24 @@ public:
 			}
 		}
 		std::cout << "Sum of Zeckendorf numbers: " << zeckTotal << std::endl;
+		
+		std::cout << _lekSum() << std::endl;
+
 	}
 
 private:
 	std::vector<mpz_class> _fibs;
+	
+	mpf_class _lekSum () {
+		mpf_class sum = 0;
+		for ( uint32_t i = 1; i < _fibs.size(); i++ ) {
+			static const mpf_class phi = (1+sqrt(5))/2;
+			mpf_class avg = i / ( phi * phi + 1 );
+			mpz_class width = _fibs[i-1]; 
+			sum += avg * width;
+		}
+		return sum;
+	}
 
 	mpz_class _getZeck (mpz_class arg, uint32_t fibIndex) {
 		mpz_class number = arg, zeck = 1;
@@ -77,8 +91,8 @@ private:
 int main(int argc, char const* argv[]) {
 	// use default argument if none is specified
 	mpz_class p297Test = 1000000; // 7894453
-	// mpz_class p297Arg = 100000000000000000;
-	mpz_class argMax = (argc == 2 ) ? atoi(argv[1]) : p297Test;
+	mpz_class p297Arg = 100000000000000000;
+	mpz_class argMax = (argc == 2 ) ? atoi(argv[1]) : p297Arg;
 	Zeckendorf zeckInst (argMax);
 
 	return 0;
