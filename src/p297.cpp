@@ -11,7 +11,7 @@ class Zeckendorf
 public:
 	Zeckendorf(mpz_class argMax)
 	{
-		// construct vector (99th term is well over 10^19)
+		// construct vector (99th term is well over 10^17)
 		for ( mpz_class i = 0; i < 100; i++ ) {
 			mpz_class fib = smallFib(i.get_ui());
 			if ( fib < argMax ) {
@@ -25,26 +25,7 @@ public:
 		// 	std::cout << _fibs[k] << std::endl;
 		// }
 		// std::cout << "r: " << argMax - _fibs[_fibs.size()-1] << std::endl;
-		
-		// mpz_class zeckSum = 0;
-		// // find closest fib and pass to _getZeck()
-		// uint32_t fibIndex = 0;
-		// for ( mpz_class i = 1; i < argMax; i++ ) {
-		// 	if ( i > 1 && i == _fibs[fibIndex+1] ) {
-		// 		fibIndex++; // i is fib so increase index
-		// 	} 
-		// 
-		// 	// if i is a fib, zeck is 1, else find zeck
-		// 	mpz_class zeck = (i == _fibs[fibIndex]) ? 1 : _getZeck(i, fibIndex);
-		// 
-		// 	zeckSum += zeck;
-		// 	// if ( argMax > 1000000000 && i % 1000000 == 0 ) {
-		// 		if ( zeck == 1 ) std::cout << std::endl;
-		// 		std::cout << i << "\tz: " << zeck << std::endl;
-		// 	// }
-		// }
-		// std::cout << "Sum of Zeckendorf numbers <" << argMax << ": " << zeckSum << std::endl;
-		
+
 		mpz_class zeckTotal = 2, zeckRunning = 1, zNum = 1;
 		uint32_t kNum = 3;
 		bool rAdded = false;
@@ -55,21 +36,16 @@ public:
 			// std::cout << "zeck: " << zeck << std::endl;
 			zeckRunning += zeck;
 			zNum++;
-			// for ( uint32_t k = kNum; k < fibIndex+1; k++ ) {
-			// 	if ( zNum == _fibs[k] || zNum == argMax - _fibs[fibIndex+1] ) {
-			// 		zeckTotal += zeckRunning;
-			// 		break;
-			// 	}
-			// }
+
 			mpz_class r = argMax - _fibs[fibIndex+1];
 			// only need to add once for each fib
-			if ( zNum == _fibs[kNum] || ( rAdded == false && zNum == r ) ) {
+			if ( zNum == _fibs[kNum] ) {
 				zeckTotal += zeckRunning;
-			 		std::cout << "i: " << i << " \tzR: " << zeckRunning;
-			 		std::cout << "\tzN: " << zNum;
-			 		std::cout << "\tk: " << kNum << std::endl;
 				if (kNum < fibIndex) kNum++;
-				break;
+			}
+			if ( rAdded == false && zNum == r ) {
+				zeckTotal += zeckRunning;
+				rAdded = true;
 			}
 		}
 		std::cout << "Sum of Zeckendorf numbers: " << zeckTotal << std::endl;
