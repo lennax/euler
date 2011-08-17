@@ -58,9 +58,6 @@ public:
 			// for ( uint32_t k = kNum; k < fibIndex+1; k++ ) {
 			// 	if ( zNum == _fibs[k] || zNum == argMax - _fibs[fibIndex+1] ) {
 			// 		zeckTotal += zeckRunning;
-			// 		std::cout << "i: " << i << " \tzR: " << zeckRunning;
-			// 		std::cout << "\tzN: " << zNum;
-			// 		std::cout << "\tk: " << k << std::endl;
 			// 		break;
 			// 	}
 			// }
@@ -68,7 +65,10 @@ public:
 			// only need to add once for each fib
 			if ( zNum == _fibs[kNum] || ( rAdded == false && zNum == r ) ) {
 				zeckTotal += zeckRunning;
-				if (kNum < fibIndex+2) kNum++;
+			 		std::cout << "i: " << i << " \tzR: " << zeckRunning;
+			 		std::cout << "\tzN: " << zNum;
+			 		std::cout << "\tk: " << kNum << std::endl;
+				if (kNum < fibIndex) kNum++;
 				break;
 			}
 		}
