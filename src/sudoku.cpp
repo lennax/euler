@@ -18,7 +18,46 @@
 class Sudoku {
 	private:
 		std::string _fileName; 
-		uint8_t _sudoku[9][9]; 
+		//uint8_t _sudoku[9][9]; 
+		typedef uint8_t _sudoku_t[9][9];
+		typedef uint8_t _piece_t[9];
+		_sudoku_t _sudoku;
+		
+		enum piece_t {
+			PIECE_ROW, PIECE_COL, PIECE_BLOCK
+		};
+		
+		bool _check (piece_t piece, uint16_t n) {
+			std::string name = "";
+			switch (piece) {
+				case PIECE_ROW: 
+					name = "row ";
+					break;
+				case PIECE_COL: 
+					name = "column ";
+					break;
+				case PIECE_BLOCK:
+					name = "block ";
+					break;
+				default: 
+					std::cerr << "piece type is not valid" << std::endl;
+					exit(1);
+			}
+			if ( n == 0 ) {
+				for ( uint16_t i = 0; i < 9; i++ ) {
+					// check piece
+					std::cout << name << i+1 << std::endl;
+				}
+			}
+			else {
+				std::cout << name << n << std::endl;
+				// check (n-1)th piece
+			}
+			
+			return false;
+		}
+		
+		
 
 	public: 
 		Sudoku (std::string fileName) :
@@ -41,11 +80,14 @@ class Sudoku {
 			}
 			fin.close();
 			
+			// _check(PIECE_ROW, 1);
+			
 		}
 
-		uint8_t** getSudoku() {
+		// May not need to return this
+		//_sudoku_t getSudoku() {
 			//return _sudoku;
-		}
+		//}
 
 		void printSudoku() {
 			for ( uint16_t i = 0; i < 9; i++ ) {	
@@ -55,6 +97,15 @@ class Sudoku {
 				std::cout << std::endl;
 			}
 		}
+		
+		// void print_test() {
+		// 	for ( uint16_t k = 0; k < 81; k++ ) {
+		// 		std::cout << _sudoku[k] << " ";
+		// 		if ( k+1%9 == 0 ) {
+		// 			std::cout << std::endl;
+		// 		}
+		// 	}
+		// }
 
 };
 
@@ -62,11 +113,14 @@ class Sudoku {
 int main (int argc, char const* argv[]) {
 	if (argc==1) {
 		std::cerr << "Usage: " << argv[0] << " filename" << std::endl;
-		exit(1);
+		//exit(1);
+		std::cerr << "Running anyway for test" << std::endl;
+		argv[1] = "data/sudoku1.txt";
 	} 
 
 	Sudoku sudokuInst(argv[1]);
 	sudokuInst.printSudoku();
+	
 	//MatrixReader mRInstance(argv[1]);
 	//mRInstance.printMatrix();
 	return 0;
