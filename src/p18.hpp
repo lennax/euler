@@ -2,6 +2,7 @@
 #define _P18_HPP
 
 #include "matrix.hpp"
+#include <string.h> // for strcmp() maybe
 
 // abstract class
 class PathFinder {

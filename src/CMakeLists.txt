@@ -42,8 +42,8 @@ add_executable(p29 p29.cpp)
 add_executable(p36 p36.cpp)
 target_link_libraries(p36 eulerCommon)
 
-add_executable(p297 p297.cpp)
-target_link_libraries(p297 eulerCommon ${GMPXX_LIBRARY})
+#add_executable(p297 p297.cpp)
+#target_link_libraries(p297 eulerCommon ${GMPXX_LIBRARY})
 
 add_executable(prime prime.cpp)
 target_link_libraries(prime eulerCommon)
