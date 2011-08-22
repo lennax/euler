@@ -11,8 +11,8 @@ int main(int argc, char const* argv[]) {
 	mp_exp_t maxExp;
 	for (uint32_t seed = 0; seed < 5000; seed++) {
 		if (rowNum == 0) {
-			cur = getFib(seed);
-			next = getFib(seed+1);
+			cur = intFib(seed);
+			next = intFib(seed+1);
 			rowNum++;
 		} else {
 			temp = cur; 

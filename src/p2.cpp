@@ -10,7 +10,7 @@ int main() {
 	uint32_t total;
 	bool complete = false;
 	for ( uint32_t n=0; n<100; n++ ) {
-		fib = getFib(n);
+		fib = intFib(n);
 		//std::cout << "mpf_class: " << fib << std::endl;
 		if ( fib.fits_uint_p()) {
 			unsigned long fib_ui = fib.get_ui();

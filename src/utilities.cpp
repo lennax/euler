@@ -59,23 +59,14 @@ char *itoa(int num, char *str, int radix) {
 	//return fib;
 //}
 
+// should go bigger than n = 1482
 mpz_class intFib(const uint32_t n) {
 	mpz_class fib; 
-	// fib = ( mpf_pow((1+sqrt(5))/2,n) - mpf_pow((1-sqrt(5))/2,n) ) / sqrt(5);
 	static const mpf_class phi = (1+sqrt(5))/2;
-	// fib = floor ( mpf_pow( phi, n ) / sqrt(5) + 1/2 );
-	// fib = mpf_pow (phi, n) / sqrt(5);
+	// 1/2 is integer math problem!! 
 	fib = floor ( mpf_pow( phi, n ) / sqrt(5) + 0.5 );
 	return fib;
 }
-
-//mpz_class mpz_pow(mpz_class base, uint32_t exp) {
-	//mpz_class result;
-	//mpz_ptr resultPtr = result.get_mpz_t();
-	//mpz_ptr basePtr = base.get_mpz_t();
-	//mpz_pow_ui(resultPtr, basePtr, exp);
-	//return result; 
-//}
 
 // compute fibonacci term (n < 1482)
 double smallFib(double n) {
@@ -91,7 +82,7 @@ double smallFib(double n) {
 	return fib;
 }
 
-// overload pow() for mpf_class
+// overloading pow() was weird
 mpf_class mpf_pow( const mpf_class base, const uint32_t exp) {
 	mpf_class result;
 	mpf_ptr resultPtr = result.get_mpf_t();
