@@ -91,6 +91,7 @@ private:
 int main(int argc, char const* argv[]) {
 	// use default argument if none is specified
 	mpz_class p297Test = 1000000; // 7894453
+	// FIXME mpz_class cannot be constructed from a long long; how? 
 	mpz_class p297Arg = 100000000000000000;
 	mpz_class argMax = (argc == 2 ) ? atoi(argv[1]) : p297Arg;
 	Zeckendorf zeckInst (argMax);
