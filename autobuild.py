@@ -9,6 +9,11 @@
 
 # TODO: Error handling: 
 ## check cmake success, etc.
+## catch CMake Warning:
+  #Manually-specified variables were not used by the project:
+		  #BUILD_TYPE
+  # (missing gprof flags)
+
 
 import sys # for sys.argv[] and sys.platform
 import os # for chdir()
@@ -24,8 +29,10 @@ def install_build(cmakeargs):
 	try: 
 		os.mkdir(build_dir)
 	except OSError as (errno, errstr):
-		if errno == 17: # File exists
-			pass 
+		if 'exists' in os.strerror(errno): # File exists: 17
+			print "Directory '%s' exists" % build_dir
+		else:
+			raise
 	os.chdir(build_dir)
 	cmake_call = "cmake" + cmakeargs + ".."
 	subprocess.check_call(cmake_call, shell=True)
@@ -34,6 +41,7 @@ def install_build(cmakeargs):
 	
 def dev_build():
 	print "You chose developer build"
+	# cmakeargs must begin and end with a space
 	cmakeargs = " -DIN_SRC_BUILD::bool=TRUE "
 	install_build(cmakeargs)
 
