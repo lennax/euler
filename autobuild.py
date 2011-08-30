@@ -83,6 +83,7 @@ def clean():
 		for name in dirs: 
 			os.rmdir(os.path.join(root, name))
 	os.rmdir(build_dir)
+	print "Build cleaned"
 
 # requires PROFILE definition in CMakeLists.txt:
 # set(CMAKE_BUILD_TYPE PROFILE)
@@ -107,7 +108,7 @@ def menu():
 
 try: 
 	loop_num = 0
-	# continues until a function raises system exit
+	# continues until a function raises system exit or ^C
 	while (1): 	
 		if len(sys.argv) == 2 and loop_num == 0:
 			opt = sys.argv[1]
