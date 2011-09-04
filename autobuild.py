@@ -54,14 +54,14 @@ def dev_build():
 def grab_deps():
 	if 'linux' in sys.platform:
 		try: 
-			subprocess.check_call('sudo apt-get install cmake', shell=True)
+			subprocess.check_call(['sudo', 'apt-get', 'install', 'cmake'])
 		except: 
 			print "Error installing dependencies: ", sys.exc_info()[0]
 			print "apt-get is available on Debian and Ubuntu" 
 			raise SystemExit
 	elif 'darwin' in sys.platform:
 		try: 
-			subprocess.check_call('sudo port install cmake', shell=True)
+			subprocess.check_call(['sudo', 'port', 'install', 'cmake'])
 		except: 
 			print "Error installing dependencies: ", sys.exc_info()[0]
 			print "Please install Macports (http://www.macports.org)"
