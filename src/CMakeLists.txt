@@ -17,6 +17,8 @@ include_directories(${GMP_INCLUDE_DIR})
 
 # problems
 
+add_executable(bitmask bitmask.cpp)
+
 add_executable(p2 p2.cpp)
 target_link_libraries(p2 eulerCommon ${GMPXX_LIBRARY})
 
